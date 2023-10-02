@@ -2,6 +2,7 @@ using System.ComponentModel.DataAnnotations;
 using api.CustomDataAnnotations;
 using api.Filters;
 using api.TransferModels;
+using infrastructure.DataModels;
 using infrastructure.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using service;
@@ -13,63 +14,64 @@ public class BoxController : ControllerBase
 {
 
     private readonly ILogger<BoxController> _logger;
-    private readonly BookService _bookService;
+    private readonly BoxService _boxService;
 
     public BoxController(ILogger<BoxController> logger,
-        BookService bookService)
+        BoxService boxService)
     {
         _logger = logger;
-        _bookService = bookService;
+        _boxService = boxService;
     }
 
 
 
     [HttpGet]
-    [Route("/api/books")]
-    public ResponseDto Get()
+    [Route("/api/boxes")]
+    public ResponseDto GetAllBoxes()
     {
         HttpContext.Response.StatusCode = 200;
         return new ResponseDto()
         {
             MessageToClient = "Successfully fetched",
-            ResponseData = _bookService.GetBooksForFeed()
+            ResponseData = _boxService.GetBoxesForFeed()
         };
     }
 
     [HttpPost]
     [ValidateModel]
-    [Route("/api/books")]
+    [Route("/api/boxes")]
     public ResponseDto Post([FromBody] CreateBoxRequestDto dto)
     {
         HttpContext.Response.StatusCode = StatusCodes.Status201Created;
         return new ResponseDto()
         {
-            MessageToClient = "Successfully created a book",
-            ResponseData = _bookService.CreateBook(dto.BookTitle, dto.Publisher, dto.CoverImgUrl, dto.Author)
+            MessageToClient = "Successfully created a box",
+            ResponseData = _boxService.CreateBox(dto.BookTitle, dto.Publisher, dto.CoverImgUrl, dto.Author)
         };
     }
 
     [HttpPut]
     [ValidateModel]
-    [Route("/api/books/{bookId}")]
+    [Route("/api/boxes/{bookId}")]
     public ResponseDto Put([FromRoute] int bookId,
-        [FromBody] UpdateBookRequestDto dto)
+        [FromBody] UpdateBoxRequestDto dto)
     {
         HttpContext.Response.StatusCode = 201;
+        Box boxen = new Box(dto.BoxTitle, dto.BoxId, dto.BoxHeight, dto.BoxWidth, dto.BoxLength, dto.BoxPrice, dto.BoxType, dto.BoxImgUrl);
         return new ResponseDto()
         {
             MessageToClient = "Successfully updated",
             ResponseData =
-                _bookService.UpdateBook(dto.BookTitle, dto.BookId, dto.Publisher, dto.CoverImgUrl, dto.Author)
+                _boxService.UpdateBox(boxen)
         };
 
     }
 
     [HttpDelete]
-    [Route("/api/books/{bookId}")]
+    [Route("/api/boxes/{bookId}")]
     public ResponseDto Delete([FromRoute] int bookId)
     {
-        _bookService.DeleteBook(bookId);
+        _boxService.DeleteBox(bookId);
         return new ResponseDto()
         {
             MessageToClient = "Succesfully deleted"

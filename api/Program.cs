@@ -18,8 +18,8 @@ if (builder.Environment.IsProduction())
 }
 
 
-builder.Services.AddSingleton<BookRepository>();
-builder.Services.AddSingleton<BookService>();
+builder.Services.AddSingleton<BoxRepository>();
+builder.Services.AddSingleton<BoxService>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
