@@ -9,13 +9,13 @@ using service;
 namespace library.Controllers;
 
 
-public class BookController : ControllerBase
+public class BoxController : ControllerBase
 {
 
-    private readonly ILogger<BookController> _logger;
+    private readonly ILogger<BoxController> _logger;
     private readonly BookService _bookService;
 
-    public BookController(ILogger<BookController> logger,
+    public BoxController(ILogger<BoxController> logger,
         BookService bookService)
     {
         _logger = logger;
@@ -39,7 +39,7 @@ public class BookController : ControllerBase
     [HttpPost]
     [ValidateModel]
     [Route("/api/books")]
-    public ResponseDto Post([FromBody] CreateBookRequestDto dto)
+    public ResponseDto Post([FromBody] CreateBoxRequestDto dto)
     {
         HttpContext.Response.StatusCode = StatusCodes.Status201Created;
         return new ResponseDto()

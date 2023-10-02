@@ -3,7 +3,7 @@ using api.CustomDataAnnotations;
 
 namespace api.TransferModels;
 
-public class CreateBookRequestDto
+public class CreateBoxRequestDto
 {
     [MinLength(5)]
     public string BookTitle { get; set; }
