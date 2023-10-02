@@ -8,5 +8,13 @@
       <jdbc-url>jdbc:postgresql://mouse.db.elephantsql.com/pgbqmord</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
+    <data-source source="LOCAL" name="PostgreSQL" uuid="5549b3d5-5483-4e0d-a385-98891bba77a6">
+      <driver-ref>postgresql</driver-ref>
+      <synchronize>true</synchronize>
+      <configured-by-url>true</configured-by-url>
+      <jdbc-driver>org.postgresql.Driver</jdbc-driver>
+      <jdbc-url>postgres://lzauaeav:VixwuGRi3aAeG1QnKq77_yE8G9zmvT3R@cornelius.db.elephantsql.com/lzauaeav</jdbc-url>
+      <working-dir>$ProjectFileDir$</working-dir>
+    </data-source>
   </component>
 </project>

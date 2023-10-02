@@ -36,7 +36,6 @@ FROM library_app.boxes;
 
     public Box UpdateBox(Box dto)
     {
-        
         string boxTitle = dto.BoxTitle;
         int boxId = dto.BoxId;
         double boxHeight = dto.BoxHeight;
