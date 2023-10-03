@@ -6,7 +6,7 @@ CREATE SCHEMA BOXFACTORY;
 CREATE TABLE BOXFACTORY.box
 (
     box_title varchar(100) NOT NULL,
-    box_id int NOT NULL PRIMARY KEY,
+    box_id SERIAL PRIMARY KEY,
     box_height float NOT NULL,
     box_width float NOT NULL,
     box_length float NOT NULL,
