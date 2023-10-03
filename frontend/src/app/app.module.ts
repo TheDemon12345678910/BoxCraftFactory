@@ -6,13 +6,13 @@ import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
-import {BookFeed} from "./book-feed.component";
+import {BoxFeed} from "./box-feed.component";
 import {HttpClientModule} from "@angular/common/http";
-import {CreateBookComponent} from "./create-book.component";
+import {CreateBoxComponent} from "./create-box.component";
 import {ReactiveFormsModule} from "@angular/forms";
 
 @NgModule({
-  declarations: [AppComponent, BookFeed, CreateBookComponent],
+  declarations: [AppComponent, BoxFeed, CreateBoxComponent],
   imports: [BrowserModule, IonicModule.forRoot({mode: 'ios'}), AppRoutingModule, HttpClientModule, ReactiveFormsModule],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
   bootstrap: [AppComponent],

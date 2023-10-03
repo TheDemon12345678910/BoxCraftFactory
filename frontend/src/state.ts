@@ -1,9 +1,9 @@
 import {Injectable} from "@angular/core";
-import {Book} from "./models";
+import {Box} from "./models";
 
 @Injectable({
   providedIn: 'root'
 })
 export class State {
-  books: Book[] = [];
+  boxes: Box[] = [];
 }

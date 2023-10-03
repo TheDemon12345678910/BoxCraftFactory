@@ -5,26 +5,26 @@ import {firstValueFrom} from "rxjs";
 import {Box, ResponseDto} from "../models";
 import {State} from "../state";
 import {ModalController, ToastController} from "@ionic/angular";
-import {CreateBookComponent} from "./create-book.component";
+import {CreateBoxComponent} from "./create-box.component";
 
 @Component({
   template: `
     <ion-content style="position: absolute; top: 0;">
       <ion-list>
-        <ion-card [attr.data-testid]="'card_'+book.bookTitle" *ngFor="let book of state.books">
+        <ion-card [attr.data-testid]="'card_'+box.boxTitle" *ngFor="let box of state.boxes">
           <ion-toolbar>
-            <ion-title>{{book.bookTitle}}</ion-title>
+            <ion-title>{{box.boxTitle}}</ion-title>
           </ion-toolbar>
           <ion-buttons>
-            <ion-button (click)="deleteBook(book.bookId)">delete</ion-button>
+            <ion-button (click)="deleteBox(box.boxId)">delete</ion-button>
           </ion-buttons>
-          <ion-card-subtitle>by {{book.author}}</ion-card-subtitle>
-          <img style="max-height: 200px;" [src]="book.coverImgUrl">
+          <ion-card-subtitle>by {{box.author}}</ion-card-subtitle>
+          <img style="max-height: 200px;" [src]="box.coverImgUrl">
         </ion-card>
       </ion-list>
 
       <ion-fab>
-        <ion-fab-button data-testid="createBook" (click)="openModal()">
+        <ion-fab-button data-testid="createBox" (click)="openModal()">
           <ion-icon name="add-outline"></ion-icon>
         </ion-fab-button>
       </ion-fab>
@@ -35,7 +35,7 @@ import {CreateBookComponent} from "./create-book.component";
 
   `,
 })
-export class BookFeed implements OnInit {
+export class BoxFeed implements OnInit {
 
 
   constructor(public http: HttpClient,public modalController: ModalController,
@@ -43,26 +43,26 @@ export class BookFeed implements OnInit {
 
   }
 
-  async fetchBooks() {
+  async fetchBoxes() {
 
       const result = await firstValueFrom(this.http.get<ResponseDto<Box[]>>(environment.baseUrl + '/api/boxes'))
-      this.state.books = result.responseData!;
+      this.state.boxes = result.responseData!;
 
 
 
   }
 
   ngOnInit(): void {
-    this.fetchBooks();
+    this.fetchBoxes();
   }
 
 
-  async deleteBook(bookId: number | undefined) {
+  async deleteBox(boxId: number | undefined) {
     try {
-      await firstValueFrom(this.http.delete(environment.baseUrl + '/api/books/'+bookId))
-      this.state.books = this.state.books.filter(b => b.bookId != bookId)
+      await firstValueFrom(this.http.delete(environment.baseUrl + '/api/boxes/'+boxId))
+      this.state.boxes = this.state.boxes.filter(b => b.boxId != boxId)
       const toast = await this.toastController.create({
-        message: 'the book was successfully deleted yeeees',
+        message: 'the box was successfully deleted yeeees',
         duration: 1233,
         color: "success"
       })
@@ -81,7 +81,7 @@ export class BookFeed implements OnInit {
 
   async openModal() {
     const modal = await this.modalController.create({
-      component: CreateBookComponent
+      component: CreateBoxComponent
     });
     modal.present();
   }

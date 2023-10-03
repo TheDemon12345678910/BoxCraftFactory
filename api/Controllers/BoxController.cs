@@ -57,7 +57,17 @@ public class BoxController : ControllerBase
         [FromBody] UpdateBoxRequestDto dto)
     {
         HttpContext.Response.StatusCode = 201;
-        Box boxen = new Box(dto.BoxTitle, dto.BoxId, dto.BoxHeight, dto.BoxWidth, dto.BoxLength, dto.BoxPrice, dto.BoxType, dto.BoxImgUrl);
+        Box boxen = new Box
+        {
+            BoxType = dto.BoxType,
+            BoxWidth = dto.BoxWidth,
+            BoxHeight = dto.BoxHeight,
+            BoxLength = dto.BoxLength,
+            BoxId = dto.BoxId,
+            BoxPrice = dto.BoxPrice,
+            BoxImgUrl = dto.BoxImgUrl,
+            BoxTitle = dto.BoxTitle
+        };
         return new ResponseDto()
         {
             MessageToClient = "Successfully updated",

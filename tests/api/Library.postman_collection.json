@@ -6,7 +6,7 @@
 	},
 	"item": [
 		{
-			"name": "GET /api/books",
+			"name": "GET /api/boxes",
 			"event": [
 				{
 					"listen": "test",
@@ -36,12 +36,12 @@
 					}
 				},
 				"url": {
-					"raw": "{{baseUrl}}/books",
+					"raw": "{{baseUrl}}/boxes",
 					"host": [
 						"{{baseUrl}}"
 					],
 					"path": [
-						"books"
+						"boxes"
 					],
 					"query": [
 						{
@@ -55,7 +55,7 @@
 			"response": []
 		},
 		{
-			"name": "POST /books",
+			"name": "POST /boxes",
 			"request": {
 				"method": "POST",
 				"header": [
@@ -114,10 +114,10 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n  \"bookTitle\": \"sadsadsadsa\",\n  \"author\": \"string\",\n  \"coverImgUrl\": \"\",\n  \"publisher\": \"publisher_1\"\n}"
+					"raw": "{\n  \"boxTitle\": \"sadsadsadsa\",\n  \"boxHeight\":\"35\",\n  \"boxWidth\":\"100\"boxLength\":\"30\",\n  \"boxPrice\":\"700\",\n  \"boxType\":\"cardboard\",\n  \"boxImgUrl\": \"\"\n}"
 				},
 				"url": {
-					"raw": "http://localhost:5000/api/books",
+					"raw": "http://localhost:5000/api/boxes",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -125,14 +125,14 @@
 					"port": "5000",
 					"path": [
 						"api",
-						"books"
+						"boxes"
 					]
 				}
 			},
 			"response": []
 		},
 		{
-			"name": "POST /books Copy",
+			"name": "POST /boxes Copy",
 			"request": {
 				"method": "POST",
 				"header": [
@@ -191,10 +191,10 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n  \"bookTitle\": \"sadsasadsadsadsaddsadsa\",\n  \"author\": \"string\",\n  \"coverImgUrl\": \"\",\n  \"publisher\": \"publisher_1\"\n}"
+					"raw": "{\n  \"boxTitle\": \"sadsasadsadsadsaddsadsa\",\n  \"boxHeight\":\"24\",\n  \"boxWidth\":\"32\",\n  \"boxLength\":\"15.9\",\n  \"boxPrice\":\"52\",\n  \"boxType\":\"cardboard\",\n  \"boxImgUrl\": \"\n}"
 				},
 				"url": {
-					"raw": "http://localhost:5000/api/books",
+					"raw": "http://localhost:5000/api/boxes",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -202,14 +202,14 @@
 					"port": "5000",
 					"path": [
 						"api",
-						"books"
+						"boxes"
 					]
 				}
 			},
 			"response": []
 		},
 		{
-			"name": "POST /books also",
+			"name": "POST /boxes also",
 			"event": [
 				{
 					"listen": "test",
@@ -237,10 +237,10 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n  \"bookTitle\": \"string\",\n  \"author\": \"string\",\n  \"coverImgUrl\": \"string\",\n  \"publisher\": \"string\"\n}"
+					"raw": "{\n  \"boxTitle\": \"string\",\n  \"boxHeight\":\"number\",\n  \"boxWidth\":\"number\",\n  \"boxLength\":\"number\",\n  \"boxPrice\":\"number\",\n  \"boxType\":\"string\",\n  \"boxImgUrl\": \"string\"\n}"
 				},
 				"url": {
-					"raw": "http://localhost:5000/api/books",
+					"raw": "http://localhost:5000/api/boxes",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -248,7 +248,7 @@
 					"port": "5000",
 					"path": [
 						"api",
-						"books"
+						"boxes"
 					]
 				}
 			},

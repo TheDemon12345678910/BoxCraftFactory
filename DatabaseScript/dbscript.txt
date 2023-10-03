@@ -1,0 +1,18 @@
+
+DROP TABLE BOXFACTORY.box;
+DROP SCHEMA BOXFACTORY;
+
+CREATE SCHEMA BOXFACTORY;
+CREATE TABLE BOXFACTORY.box
+(
+    box_title varchar(100) NOT NULL,
+    box_id int NOT NULL PRIMARY KEY,
+    box_height float NOT NULL,
+    box_width float NOT NULL,
+    box_length float NOT NULL,
+    box_price float NOT NULL,
+    box_type varchar(50) NOT NULL,
+    box_img_url varchar(1000)
+);
+
+SELECT * FROM BOXFACTORY.box;

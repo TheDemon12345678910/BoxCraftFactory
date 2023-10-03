@@ -16,5 +16,12 @@
       <jdbc-url>postgres://lzauaeav:VixwuGRi3aAeG1QnKq77_yE8G9zmvT3R@cornelius.db.elephantsql.com/lzauaeav</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
+    <data-source source="LOCAL" name="lzauaeav@cornelius.db.elephantsql.com" uuid="f756306c-8b39-4dfb-af8c-a1177291c585">
+      <driver-ref>postgresql</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.postgresql.Driver</jdbc-driver>
+      <jdbc-url>jdbc:postgresql://cornelius.db.elephantsql.com:5432/lzauaeav</jdbc-url>
+      <working-dir>$ProjectFileDir$</working-dir>
+    </data-source>
   </component>
 </project>
