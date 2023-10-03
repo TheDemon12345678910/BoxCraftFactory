@@ -1,4 +1,4 @@
-export class Book {
+export class Box {
   bookTitle?: string;
   publisher?: string;
   bookId?: number;

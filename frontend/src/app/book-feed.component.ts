@@ -45,7 +45,7 @@ export class BookFeed implements OnInit {
 
   async fetchBooks() {
 
-      const result = await firstValueFrom(this.http.get<ResponseDto<Book[]>>(environment.baseUrl + '/api/books'))
+      const result = await firstValueFrom(this.http.get<ResponseDto<Book[]>>(environment.baseUrl + '/api/boxes'))
       this.state.books = result.responseData!;
 
 
