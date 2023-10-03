@@ -2,7 +2,7 @@ import {Component, OnInit} from "@angular/core";
 import {HttpClient, HttpErrorResponse} from "@angular/common/http";
 import {environment} from "../environments/environment";
 import {firstValueFrom} from "rxjs";
-import {Book, ResponseDto} from "../models";
+import {Box, ResponseDto} from "../models";
 import {State} from "../state";
 import {ModalController, ToastController} from "@ionic/angular";
 import {CreateBookComponent} from "./create-book.component";
@@ -45,7 +45,7 @@ export class BookFeed implements OnInit {
 
   async fetchBooks() {
 
-      const result = await firstValueFrom(this.http.get<ResponseDto<Book[]>>(environment.baseUrl + '/api/boxes'))
+      const result = await firstValueFrom(this.http.get<ResponseDto<Box[]>>(environment.baseUrl + '/api/boxes'))
       this.state.books = result.responseData!;
 
 
