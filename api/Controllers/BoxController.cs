@@ -46,14 +46,14 @@ public class BoxController : ControllerBase
         return new ResponseDto()
         {
             MessageToClient = "Successfully created a box",
-            ResponseData = _boxService.CreateBox(dto.BookTitle, dto.Publisher, dto.CoverImgUrl, dto.Author)
+            ResponseData = _boxService.CreateBox(dto.BoxTitle, dto.BoxHeight, dto.BoxWidth, dto.BoxLength, dto.BoxPrice, dto.BoxType, dto.BoxImgUrl)
         };
     }
 
     [HttpPut]
     [ValidateModel]
-    [Route("/api/boxes/{bookId}")]
-    public ResponseDto Put([FromRoute] int bookId,
+    [Route("/api/boxes/{boxId}")]
+    public ResponseDto Put([FromRoute] int boxId,
         [FromBody] UpdateBoxRequestDto dto)
     {
         HttpContext.Response.StatusCode = 201;
@@ -68,10 +68,10 @@ public class BoxController : ControllerBase
     }
 
     [HttpDelete]
-    [Route("/api/boxes/{bookId}")]
-    public ResponseDto Delete([FromRoute] int bookId)
+    [Route("/api/boxes/{boxId}")]
+    public ResponseDto Delete([FromRoute] int boxId)
     {
-        _boxService.DeleteBox(bookId);
+        _boxService.DeleteBox(boxId);
         return new ResponseDto()
         {
             MessageToClient = "Succesfully deleted"

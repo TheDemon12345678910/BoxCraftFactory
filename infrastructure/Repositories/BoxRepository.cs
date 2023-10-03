@@ -64,11 +64,11 @@ RETURNING box_id as {nameof(BoxFeedQuery.BoxId)},
         }
     }
 
-    public Box CreateBox(string boxTitle, string publisher, string coverImgUrl, string author)
+    public Box CreateBox(string boxTitle, double boxHeight, double boxWidth, double boxLength, double boxPrice, string boxType, string boxImgUrl)
     {
         var sql = $@"
-INSERT INTO library_app.boxes (box_title, publisher, author, cover_img_url) 
-VALUES (@boxTitle, @publisher, @author, @coverImgUrl)
+INSERT INTO library_app.boxes (box_title, box_height, box_width, box_length, box_price, box_type,box_img_url) 
+VALUES (@boxTitle, @boxHeight, @boxWidth, @boxLength, @boxPrice, @boxType @boxImgUrl)
 RETURNING box_id as {nameof(BoxFeedQuery.BoxId)},
         box_title as {nameof(BoxFeedQuery.BoxTitle)},
         box_height as {nameof(BoxFeedQuery.BoxHeight)},
@@ -80,7 +80,7 @@ RETURNING box_id as {nameof(BoxFeedQuery.BoxId)},
 ";
         using (var conn = _dataSource.OpenConnection())
         {
-            return conn.QueryFirst<Box>(sql, new { boxTitle, publisher, author, coverImgUrl });
+            return conn.QueryFirst<Box>(sql, new { boxTitle, boxHeight, boxWidth, boxLength, boxPrice, boxType, boxImgUrl });
         }
     }
 

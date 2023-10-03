@@ -19,7 +19,7 @@ public class BoxService
         return _boxRepository.GetBoxesForFeed();
     }
 
-    public Box CreateBox(string boxTitle, string publisher, string coverImgUrl, string author)
+    public Box CreateBox(string boxTitle, double boxHeight, double boxWidth, double boxLength, double boxPrice, string boxType, string boxImgUrl)
     {
         var doesBoxExist = _boxRepository.DoesBoxtWithTitleExist( boxTitle);
        if (doesBoxExist)
@@ -27,7 +27,7 @@ public class BoxService
             throw new ValidationException("Box already exists with title " + boxTitle);
         }
         
-        return _boxRepository.CreateBox(boxTitle, publisher, coverImgUrl, author);
+        return _boxRepository.CreateBox(boxTitle, boxHeight, boxWidth, boxLength, boxPrice,boxType, boxImgUrl);
     }
 
     public Box UpdateBox(Box boxen)
