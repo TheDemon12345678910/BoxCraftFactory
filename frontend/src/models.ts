@@ -1,5 +1,5 @@
 export class Box {
-  bookTitle?: string;
+  boxTitle?: string;
   boxHeight?: number;
   boxWidth?: number;
   boxLength?: number;

@@ -9,27 +9,29 @@ import {CreateBoxComponent} from "./create-box.component";
 
 @Component({
   template: `
-    <ion-content style="position: absolute; top: 0;">
-      <ion-list>
-        <ion-card [attr.data-testid]="'card_'+box.boxTitle" *ngFor="let box of state.boxes">
-          <ion-toolbar>
-            <ion-title>{{box.boxTitle}}</ion-title>
-          </ion-toolbar>
-          <ion-buttons>
-            <ion-button (click)="deleteBox(box.boxId)">delete</ion-button>
-          </ion-buttons>
-          <ion-card-subtitle>by {{box.author}}</ion-card-subtitle>
-          <img style="max-height: 200px;" [src]="box.coverImgUrl">
-        </ion-card>
-      </ion-list>
 
-      <ion-fab>
-        <ion-fab-button data-testid="createBox" (click)="openModal()">
-          <ion-icon name="add-outline"></ion-icon>
-        </ion-fab-button>
-      </ion-fab>
+      <ion-content style="position: absolute; top: 0;">
+          <img src="assets/icon/Box-craft.png" alt="BoxCraft"/>
+          <ion-list>
+              <ion-card [attr.data-testid]="'card_'+box.boxTitle" *ngFor="let box of state.boxes">
+                  <ion-toolbar>
+                      <ion-title>{{box.boxTitle}}</ion-title>
+                  </ion-toolbar>
+                  <ion-buttons>
+                      <ion-button (click)="deleteBox(box.boxId)">delete</ion-button>
+                  </ion-buttons>
+                  <ion-card-subtitle>Price: {{box.boxPrice}} dkk</ion-card-subtitle>
+                  <img style="max-height: 200px;" [src]="box.boxImgUrl">
+              </ion-card>
+          </ion-list>
 
-    </ion-content>
+          <ion-fab>
+              <ion-fab-button data-testid="createBox" (click)="openModal()">
+                  <ion-icon name="add-outline"></ion-icon>
+              </ion-fab-button>
+          </ion-fab>
+
+      </ion-content>
 
 
 
