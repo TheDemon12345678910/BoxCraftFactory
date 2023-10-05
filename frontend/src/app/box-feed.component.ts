@@ -6,16 +6,18 @@ import {Box, ResponseDto} from "../models";
 import {State} from "../state";
 import {ModalController, ToastController} from "@ionic/angular";
 import {CreateBoxComponent} from "./create-box.component";
+import { UpdateBoxComponent } from "./update-box-component";
 
 @Component({
   template: `
       <ion-content style="position: absolute; top: 0;">
           <img src="assets/icon/Box-craft.png" alt="BoxCraft"/>
           <ion-grid [fixed]="true">
-            
+
               <ion-col>
                   <ion-row>
-                      <ion-card class=ion-card [attr.data-testid]="'card_'+box.boxTitle" *ngFor="let box of state.boxes">
+                      <ion-card class=ion-card [attr.data-testid]="'card_'+box.boxTitle"
+                                *ngFor="let box of state.boxes">
                           <ion-toolbar>
                               <ion-title class="card">{{box.boxTitle}}</ion-title>
                           </ion-toolbar>
@@ -33,6 +35,12 @@ import {CreateBoxComponent} from "./create-box.component";
                   <ion-icon name="hammer-outline"></ion-icon>
               </ion-fab-button>
           </ion-fab>
+          <ion-fab>
+              <ion-fab-button data-testid="update" (click)="updateModal()">
+                  <ion-icon name="build-outline"></ion-icon>
+              </ion-fab-button>
+          </ion-fab>
+
 
       </ion-content>
   `,
@@ -84,6 +92,12 @@ export class BoxFeed implements OnInit {
   async openModal() {
     const modal = await this.modalController.create({
       component: CreateBoxComponent
+    });
+    modal.present();
+  }
+  async updateModal() {
+    const modal = await this.modalController.create({
+      component: UpdateBoxComponent
     });
     modal.present();
   }
