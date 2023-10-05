@@ -6,42 +6,76 @@ import {Box, ResponseDto} from "../models";
 import {State} from "../state";
 import {ModalController, ToastController} from "@ionic/angular";
 import {CreateBoxComponent} from "./create-box.component";
-import { UpdateBoxComponent } from "./update-box-component";
 
 @Component({
+
   template: `
       <ion-content style="position: absolute; top: 0;">
           <img src="assets/icon/Box-craft.png" alt="BoxCraft"/>
-          <ion-grid [fixed]="true">
+          <!--The big grid with 2 grids inside-->
+          <ion-grid>
+              <ion-row>
+                  <ion-col>
+                      <ion-scroll style="height:300px">
+                          <div style="height:100%">
+                              <ion-grid>
+                                  <ion-col>
+                                      <ion-row>
+                                          <ion-card class=ion-card [attr.data-testid]="'card_'+box.boxTitle"
+                                                    *ngFor="let box of state.boxes">
+                                              <ion-toolbar>
+                                                  <ion-title class="card">{{box.boxTitle}}</ion-title>
+                                              </ion-toolbar>
+                                              <ion-buttons>
+                                                  <ion-button (click)="deleteBox(box.boxId)">delete</ion-button>
+                                              </ion-buttons>
+                                              <ion-card-subtitle>Price: {{box.boxPrice}} dkk</ion-card-subtitle>
+                                              <img style="max-height: 200px;" [src]="box.boxImgUrl">
+                                          </ion-card>
+                                      </ion-row>
+                                  </ion-col>
+                              </ion-grid>
+                          </div>
+                      </ion-scroll>
+                  </ion-col>
+                  <ion-col>
+                      <ion-grid>
+                          <ion-row>
+                              <ion-col>
+                                  <ion-card>
+                                      <img style="max-height: 200px;" alt="Silhouette of mountains"
+                                           src="https://ionicframework.com/docs/img/demos/card-media.png"/>
+                                      <ion-card-header>
+                                          <ion-card-title>Card Title</ion-card-title>
+                                          <ion-card-subtitle>Card Subtitle</ion-card-subtitle>
+                                      </ion-card-header>
 
-              <ion-col>
-                  <ion-row>
-                      <ion-card class=ion-card [attr.data-testid]="'card_'+box.boxTitle"
-                                *ngFor="let box of state.boxes">
-                          <ion-toolbar>
-                              <ion-title class="card">{{box.boxTitle}}</ion-title>
-                          </ion-toolbar>
-                          <ion-buttons>
-                              <ion-button (click)="deleteBox(box.boxId)">delete</ion-button>
-                          </ion-buttons>
-                          <ion-card-subtitle>Price: {{box.boxPrice}} dkk</ion-card-subtitle>
-                          <img style="max-height: 200px;" [src]="box.boxImgUrl">
-                      </ion-card>
-                  </ion-row>
-              </ion-col>
+                                      <ion-card-content>
+                                          Here's a small text description for the card content. Nothing more, nothing
+                                          less.
+                                      </ion-card-content>
+                                  </ion-card>
+                              </ion-col>
+                          </ion-row>
+                      </ion-grid>
+                  </ion-col>
+              </ion-row>
           </ion-grid>
-          <ion-fab>
-              <ion-fab-button data-testid="createBox" (click)="openModal()">
-                  <ion-icon name="hammer-outline"></ion-icon>
-              </ion-fab-button>
-          </ion-fab>
-          <ion-fab>
-              <ion-fab-button data-testid="update" (click)="updateModal()">
-                  <ion-icon name="build-outline"></ion-icon>
-              </ion-fab-button>
-          </ion-fab>
 
 
+        <ion-fab slot="fixed" vertical="bottom" horizontal="start">
+          <ion-fab-button>
+            <ion-icon name="chevron-forward-circle"></ion-icon>
+          </ion-fab-button>
+          <ion-fab-list side="end">
+            <ion-fab-button data-testid="createBox" (click)="openModal()">
+              <ion-icon name="hammer-outline"></ion-icon>
+            </ion-fab-button>
+            <ion-fab-button data-testid="update" (click)="updateModal()">
+              <ion-icon name="build-outline"></ion-icon>
+            </ion-fab-button>
+          </ion-fab-list>
+        </ion-fab>
       </ion-content>
   `,
 })
@@ -88,20 +122,18 @@ export class BoxFeed implements OnInit {
     }
 
   }
-
+  async updateModal() {
+    const modal = await this.modalController.create({
+      component: CreateBoxComponent
+    });
+    modal.present();
+  }
   async openModal() {
     const modal = await this.modalController.create({
       component: CreateBoxComponent
     });
     modal.present();
   }
-  async updateModal() {
-    const modal = await this.modalController.create({
-      component: UpdateBoxComponent
-    });
-    modal.present();
-  }
-
   protected readonly Math = Math;
 }
 
