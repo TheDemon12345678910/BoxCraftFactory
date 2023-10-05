@@ -6,7 +6,7 @@ import {Box, ResponseDto} from "../models";
 import {State} from "../state";
 import {ModalController, ToastController} from "@ionic/angular";
 import {CreateBoxComponent} from "./create-box.component";
-
+import {BoxService} from "../box.service"
 @Component({
 
   template: `
@@ -81,10 +81,8 @@ import {CreateBoxComponent} from "./create-box.component";
 })
 export class BoxFeed implements OnInit {
 
-
   constructor(public http: HttpClient,public modalController: ModalController,
               public state: State, public toastController: ToastController) {
-
   }
 
   async fetchBoxes() {
@@ -102,7 +100,9 @@ export class BoxFeed implements OnInit {
 
 
   async deleteBox(boxId: number | undefined) {
+    
     try {
+
       await firstValueFrom(this.http.delete(environment.baseUrl + '/api/boxes/'+boxId))
       this.state.boxes = this.state.boxes.filter(b => b.boxId != boxId)
       const toast = await this.toastController.create({
