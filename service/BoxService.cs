@@ -5,10 +5,11 @@ using infrastructure.Repositories;
 using Microsoft.AspNetCore.Mvc;
 
 namespace service;
+
 public class BoxService
 {
     private readonly BoxRepository _boxRepository;
-    
+
     public BoxService(BoxRepository boxRepository)
     {
         _boxRepository = boxRepository;
@@ -19,7 +20,8 @@ public class BoxService
         return _boxRepository.GetBoxesForFeed();
     }
 
-    public Box CreateBox(string boxTitle, double boxHeight, double boxWidth, double boxLength, double boxPrice, string boxType, string boxImgUrl)
+    public Box CreateBox(string boxTitle, double boxHeight, double boxWidth, double boxLength, double boxPrice,
+        string boxType, string boxImgUrl)
     {
         try
         {
@@ -38,7 +40,6 @@ public class BoxService
             Console.WriteLine(e.StackTrace);
             throw new Exception("Err");
         }
-   
     }
 
     public Box UpdateBox(Box boxen)
@@ -48,11 +49,22 @@ public class BoxService
 
     public void DeleteBox(int boxId)
     {
-        
         var result = _boxRepository.DeleteBox(boxId);
         if (!result)
         {
             throw new Exception("Could not insert box");
         }
+    }
+
+    public List<Box> SearchForBox(string searchTerm)
+    {
+        List<Box> result = _boxRepository.FindBoxes(searchTerm);
+
+        if (result == null || result.Count == 0)
+        {
+            throw new Exception("Could not find box");
+        }
+
+        return result;
     }
 }

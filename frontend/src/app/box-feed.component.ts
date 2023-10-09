@@ -6,9 +6,10 @@ import {Box, ResponseDto} from "../models";
 import {State} from "../state";
 import {ModalController, ToastController} from "@ionic/angular";
 import {CreateBoxComponent} from "./create-box.component";
-import {UpdateBoxComponent} from"./update-box.component"
+import {UpdateBoxComponent} from "./update-box.component";
+import {BoxService} from "../box.service"
 @Component({
-
+  selector: 'app-alert',
   template: `
       <ion-content style="position: absolute; top: 0;">
           <img src="assets/icon/Box-craft.png" alt="BoxCraft"/>
@@ -27,8 +28,14 @@ import {UpdateBoxComponent} from"./update-box.component"
                                                   <ion-title class="card">{{box.boxTitle}}</ion-title>
                                               </ion-toolbar>
                                               <ion-buttons>
-                                                  <ion-button (click)="deleteBox(box.boxId)">delete</ion-button>
+                                                  <ion-button id="'btnDelete_'+{{box.boxTitle}}">delete</ion-button>
+                                                  <ion-alert
+                                                          trigger="'btnDelete_'+{{box.boxTitle}}"
+                                                          header="Are you sure you want to delete this box: {{box.boxTitle}}"
+                                                          [buttons]="alertButtons"
+                                                  ></ion-alert>
                                               </ion-buttons>
+
                                               <ion-card-subtitle>Price: {{box.boxPrice}} dkk</ion-card-subtitle>
                                               <img style="max-height: 200px;" [src]="box.boxImgUrl">
                                           </ion-card>
@@ -62,34 +69,44 @@ import {UpdateBoxComponent} from"./update-box.component"
               </ion-row>
           </ion-grid>
 
-
-        <ion-fab slot="fixed" vertical="bottom" horizontal="start">
-          <ion-fab-button>
-            <ion-icon name="chevron-forward-circle"></ion-icon>
-          </ion-fab-button>
-          <ion-fab-list side="end">
-            <ion-fab-button data-testid="createBox" (click)="openModal()">
-              <ion-icon name="hammer-outline"></ion-icon>
-            </ion-fab-button>
-            <ion-fab-button data-testid="update" (click)="updateModal()">
-              <ion-icon name="build-outline"></ion-icon>
-            </ion-fab-button>
-          </ion-fab-list>
-        </ion-fab>
+          <ion-fab slot="fixed" vertical="bottom" horizontal="start">
+              <ion-fab-button>
+                  <ion-icon name="chevron-forward-circle"></ion-icon>
+              </ion-fab-button>
+              <ion-fab-list side="end">
+                  <ion-fab-button data-testid="createBox" (click)="openModal()">
+                      <ion-icon name="hammer-outline"></ion-icon>
+                  </ion-fab-button>
+                  <ion-fab-button data-testid="update" (click)="updateModal()">
+                      <ion-icon name="build-outline"></ion-icon>
+                  </ion-fab-button>
+              </ion-fab-list>
+          </ion-fab>
       </ion-content>
   `,
 })
 export class BoxFeed implements OnInit {
 
-  constructor(public http: HttpClient,public modalController: ModalController,
+  constructor(public http: HttpClient, public modalController: ModalController,
               public state: State, public toastController: ToastController) {
   }
 
+  public alertButtons = [
+    {
+      text: 'No',
+      cssClass: 'alert-button-cancel',
+
+    },
+    {
+      text: 'Yes',
+      cssClass: 'alert-button-confirm',
+    },
+  ];
+
   async fetchBoxes() {
 
-      const result = await firstValueFrom(this.http.get<ResponseDto<Box[]>>(environment.baseUrl + '/api/boxes'))
-      this.state.boxes = result.responseData!;
-
+    const result = await firstValueFrom(this.http.get<ResponseDto<Box[]>>(environment.baseUrl + '/api/boxes'))
+    this.state.boxes = result.responseData!;
 
 
   }
@@ -103,7 +120,7 @@ export class BoxFeed implements OnInit {
 
     try {
 
-      await firstValueFrom(this.http.delete(environment.baseUrl + '/api/boxes/'+boxId))
+      await firstValueFrom(this.http.delete(environment.baseUrl + '/api/boxes/' + boxId))
       this.state.boxes = this.state.boxes.filter(b => b.boxId != boxId)
       const toast = await this.toastController.create({
         message: 'the box was successfully deleted yeeees',
@@ -112,7 +129,7 @@ export class BoxFeed implements OnInit {
       })
       toast.present();
     } catch (e) {
-      if(e instanceof HttpErrorResponse) {
+      if (e instanceof HttpErrorResponse) {
         const toast = await this.toastController.create({
           message: e.error.messageToClient,
           color: "danger"
@@ -122,18 +139,25 @@ export class BoxFeed implements OnInit {
     }
 
   }
+
+  setResult(ev: { detail: { role: any; }; }) {
+    console.log(`Dismissed with role: ${ev.detail.role}`);
+  }
+
   async updateModal() {
     const modal = await this.modalController.create({
       component: UpdateBoxComponent
     });
     modal.present();
   }
+
   async openModal() {
     const modal = await this.modalController.create({
       component: CreateBoxComponent
     });
     modal.present();
   }
+
   protected readonly Math = Math;
 }
 

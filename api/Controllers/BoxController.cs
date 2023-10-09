@@ -88,6 +88,21 @@ public class BoxController : ControllerBase
         };
 
     }
+    
+    [HttpGet]
+    [Route("/api/FindBox/")]
+    public IEnumerable<Box> SearchForBoxes([FromQuery]string searchTerm)
+    {
+        // Validate input
+        if (searchTerm.Length > 3)
+        {
+            return _boxService.SearchForBox(searchTerm);
+        }
+        else
+        {
+            throw new ArgumentException("Invalid search term. The length must be greater than 3 characters.");
+        }
+    }
 }
 
 
