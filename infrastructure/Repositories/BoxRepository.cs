@@ -101,4 +101,13 @@ RETURNING box_id as {nameof(Box.BoxId)},
             return conn.ExecuteScalar<int>(sql, new { boxTitle }) == 1;
         }
     }
+    
+    public List<Box> FindBoxes(string searchTerm)
+    {
+        var sql = @"SELECT * FROM boxfactory.box WHERE box_title LIKE @boxTitle;";
+        using (var conn = _dataSource.OpenConnection())
+        {
+            return conn.Query<Box>(sql, new { boxTitle = "%" + searchTerm + "%" }).ToList();
+        }
+    }
 }
