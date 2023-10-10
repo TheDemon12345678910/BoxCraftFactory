@@ -23,6 +23,16 @@
   height: 20%;
   width: 30%;
 }
+
+.scrollBox{
+  border: none;
+  padding: 5px;
+  font: 24px/36px sans-serif;
+  width: 800px;
+  height: 700px;
+  overflow: scroll;
+}
+
 /*
  * iOS Dark Theme
  * -------------------------------------------

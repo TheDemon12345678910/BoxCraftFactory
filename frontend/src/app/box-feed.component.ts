@@ -7,22 +7,28 @@ import {State} from "../state";
 import {ModalController, ToastController} from "@ionic/angular";
 import {CreateBoxComponent} from "./create-box.component";
 import {BoxService} from "../box.service"
+import {FormBuilder, Validators} from "@angular/forms";
 
 @Component({
   selector: 'app-alert',
   template: `
     <ion-content style="position: absolute; top: 0;">
       <img src="assets/icon/Box-craft.png" alt="BoxCraft"/>
+      <ion-item>
+        <ion-input [formControl]="createNewboxForm.controls.boxTitle" data-testid="titleInput" label="Insert title for box, please">
+        </ion-input>
+        <ion-button (click)="filterBoxes()">click me to find box</ion-button>
+      </ion-item>
+
       <!--The big grid with 2 grids inside-->
       <ion-grid>
         <ion-row>
           <ion-col>
-            <ion-scroll style="height:300px">
-              <div style="height:100%">
+              <div class="scrollBox">
                 <ion-grid>
                   <ion-col>
                     <ion-row>
-                      <ion-card class=ion-card [attr.data-testid]="'card_'+box.boxTitle"
+                      <ion-card (click)="clickedCard(box.boxId)" class=ion-card [attr.data-testid]="'card_'+box.boxTitle"
                                 *ngFor="let box of state.boxes">
                         <ion-toolbar>
                           <ion-title class="card">{{box.boxTitle}}</ion-title>
@@ -43,7 +49,6 @@ import {BoxService} from "../box.service"
                   </ion-col>
                 </ion-grid>
               </div>
-            </ion-scroll>
           </ion-col>
           <ion-col>
             <ion-grid>
@@ -53,7 +58,7 @@ import {BoxService} from "../box.service"
                     <img style="max-height: 200px;" alt="Silhouette of mountains"
                          src="https://ionicframework.com/docs/img/demos/card-media.png"/>
                     <ion-card-header>
-                      <ion-card-title>Card Title</ion-card-title>
+                      <ion-card-title id="infocard">Card Title</ion-card-title>
                       <ion-card-subtitle>Card Subtitle</ion-card-subtitle>
                     </ion-card-header>
 
@@ -86,11 +91,14 @@ import {BoxService} from "../box.service"
   `,
 })
 export class BoxFeed implements OnInit {
-  searchTerm: string | undefined;
+
+  createNewboxForm = this.fb.group({
+    boxTitle: ['', Validators.minLength(4)]
+  })
   constructor(public http: HttpClient, public modalController: ModalController,
-              public state: State, public toastController: ToastController) {
+              public state: State, public toastController: ToastController, public fb: FormBuilder) {
   }
-  
+
 
   public alertButtons = [
     {
@@ -103,8 +111,16 @@ export class BoxFeed implements OnInit {
       cssClass: 'alert-button-confirm',
     },
   ];
-  
 
+  clickedCard(cardID: number | undefined){
+    console.log("Hello you clicked the card with id: " + cardID);
+    var infoCardTitle = document.getElementById("infocard");
+    if(infoCardTitle != null){
+      infoCardTitle.textContent = cardID + "";
+    }
+
+
+  }
   async fetchBoxes() {
 
     const result = await firstValueFrom(this.http.get<ResponseDto<Box[]>>(environment.baseUrl + '/api/boxes'))
@@ -142,7 +158,7 @@ export class BoxFeed implements OnInit {
 
   }
   async filterBoxes() {
-    const call = this.http.get<Box[]>('http://localhost:5000/api/FindBox?searchTerm=' + this.searchTerm);
+    const call = this.http.get<Box[]>(environment.baseUrl + '/api/FindBox?searchTerm=' + this.createNewboxForm.getRawValue().boxTitle);
     const result = await firstValueFrom<Box[]>(call);
     this.state.boxes = result;
   }
@@ -165,5 +181,6 @@ export class BoxFeed implements OnInit {
   }
 
   protected readonly Math = Math;
+  protected readonly console = console;
 }
 
