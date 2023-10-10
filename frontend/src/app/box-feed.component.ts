@@ -68,7 +68,6 @@ import {BoxService} from "../box.service"
                   </ion-col>
               </ion-row>
           </ion-grid>
-
           <ion-fab slot="fixed" vertical="bottom" horizontal="start">
               <ion-fab-button>
                   <ion-icon name="chevron-forward-circle"></ion-icon>
@@ -77,7 +76,7 @@ import {BoxService} from "../box.service"
                   <ion-fab-button data-testid="createBox" (click)="openModal()">
                       <ion-icon name="hammer-outline"></ion-icon>
                   </ion-fab-button>
-                  <ion-fab-button data-testid="update" (click)="openModal()">
+                  <ion-fab-button data-testid="update" (click)="updateModal()">
                       <ion-icon name="build-outline"></ion-icon>
                   </ion-fab-button>
               </ion-fab-list>
@@ -86,10 +85,11 @@ import {BoxService} from "../box.service"
   `,
 })
 export class BoxFeed implements OnInit {
-
+  searchTerm: string | undefined;
   constructor(public http: HttpClient, public modalController: ModalController,
               public state: State, public toastController: ToastController) {
   }
+
 
   public alertButtons = [
     {
@@ -102,6 +102,7 @@ export class BoxFeed implements OnInit {
       cssClass: 'alert-button-confirm',
     },
   ];
+
 
   async fetchBoxes() {
 
@@ -139,17 +140,21 @@ export class BoxFeed implements OnInit {
     }
 
   }
-
+  async filterBoxes() {
+    const call = this.http.get<Box[]>('http://localhost:5000/api/FindBox?searchTerm=' + this.searchTerm);
+    const result = await firstValueFrom<Box[]>(call);
+    this.state.boxes = result;
+  }
   setResult(ev: { detail: { role: any; }; }) {
     console.log(`Dismissed with role: ${ev.detail.role}`);
   }
 
-  /**async updateModal() {
+  async updateModal() {
     const modal = await this.modalController.create({
-      component: UpdateBoxComponent
+      component: CreateBoxComponent
     });
     modal.present();
-  }*/
+  }
 
   async openModal() {
     const modal = await this.modalController.create({

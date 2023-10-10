@@ -59,14 +59,14 @@ public class BoxController : ControllerBase
         HttpContext.Response.StatusCode = 201;
         Box boxen = new Box
         {
-            BoxType = dto.BoxType,
-            BoxWidth = dto.BoxWidth,
-            BoxHeight = dto.BoxHeight,
-            BoxLength = dto.BoxLength,
-            BoxId = dto.BoxId,
-            BoxPrice = dto.BoxPrice,
-            BoxImgUrl = dto.BoxImgUrl,
-            BoxTitle = dto.BoxTitle
+            boxType = dto.boxType,
+            boxWidth = dto.boxWidth,
+            boxHeight = dto.boxHeight,
+            boxLength = dto.boxLength,
+            boxId = dto.boxId,
+            boxPrice = dto.boxPrice,
+            boxImgUrl = dto.boxImgUrl,
+            boxTitle = dto.boxTitle
         };
         return new ResponseDto()
         {

@@ -1,9 +1,7 @@
-namespace infrastructure.DataModels;
+namespace infrastructure.QueryModels;
 
-public class Box
+public class BoxFeedQuery
 {
-  
-
     public string boxTitle { get; set; }
     public int boxId { get; set; }
     public double boxHeight { get; set; }
