@@ -1,50 +1,50 @@
+/**
 import {Component, NgModule} from "@angular/core";
+import {BoxService, BoxInformation} from"../box.service"
 import {FormBuilder, Validators} from "@angular/forms";
 import {Box, ResponseDto} from "../models";
 import {HttpClient, HttpErrorResponse} from "@angular/common/http";
 import {environment} from "../environments/environment";
 import {State} from "../state";
 import {firstValueFrom} from "rxjs";
-import {ModalController, ToastController, IonicModule} from "@ionic/angular";
-import {BoxService} from"../box.service"
-
+import {ModalController, ToastController} from "@ionic/angular";
 @Component({
   template: `
 
   <ion-list>
     <ion-item>
-      <ion-input [formControl]="updateBoxForm.controls.boxTitle" data-testid="titleInput" label="Insert new title for box" placeholder="">
+      <ion-input [formControl]="updateBoxForm.controls.boxTitle" data-testid="titleInput" placeholder='this.box.title'>
 
       </ion-input>
       <div *ngIf="!updateBoxForm.controls.boxTitle.valid">box title must be 4 chars or more</div>
     </ion-item>
     <ion-item>
-      <ion-input [formControl]="updateBoxForm.controls.boxHeight" data-testid="boxHeightInput"  label="Insert new height for box" placeholder="">
+      <ion-input [formControl]="updateBoxForm.controls.boxHeight" data-testid="boxHeightInput"  label="Insert new height for box" placeholder="this.box.height">
 
       </ion-input>
     </ion-item>
     <ion-item>
-      <ion-input [formControl]="updateBoxForm.controls.boxWidth" data-testid="boxWidthInput"  label="Insert new width for box" placeholder="">
+      <ion-input [formControl]="updateBoxForm.controls.boxWidth" data-testid="boxWidthInput"  label="Insert new width for box" placeholder="this.box.width">
 
       </ion-input>
     </ion-item>
     <ion-item>
-      <ion-input [formControl]="updateBoxForm.controls.boxLenght" data-testid="boxLenghtInput"  label="Insert new lenght for box" placeholder="">
+      <ion-input [formControl]="updateBoxForm.controls.boxLenght" data-testid="boxLenghtInput"  label="Insert new lenght for box" placeholder = "this.box.length">
 
       </ion-input>
     </ion-item>
     <ion-item>
-      <ion-input [formControl]="updateBoxForm.controls.boxPrice" data-testid="boxPriceInput"  label="Insert new price for box" placeholder="">
+      <ion-input [formControl]="updateBoxForm.controls.boxPrice" data-testid="boxPriceInput"  label="Insert new price for box" placeholder="this.box.price">
 
       </ion-input>
     </ion-item>
     <ion-item>
-      <ion-input [formControl]="updateBoxForm.controls.boxType" data-testid="boxTypeInput"  label="Insert a new type for the box" placeholder="">
+      <ion-input [formControl]="updateBoxForm.controls.boxType" data-testid="boxTypeInput"  label="Insert a new type for the box" placeholder="this.box.type">
 
       </ion-input>
     </ion-item>
     <ion-item>
-      <ion-input  [formControl]="updateBoxForm.controls.boxImgUrl"  data-testid="boxImgUrlInput"   label="Insert a new boximgurl for box" placeholder="">
+      <ion-input  [formControl]="updateBoxForm.controls.boxImgUrl"  data-testid="boxImgUrlInput"   label="Insert a new boximgurl for box" placeholder="this.box.imageUrl">
 
       </ion-input>
     </ion-item>
@@ -70,10 +70,10 @@ export class UpdateBoxComponent {
 
   constructor(public boxService: BoxService, public fb: FormBuilder, public modalController: ModalController, public http: HttpClient, public state: State, public toastController: ToastController) {
   }
+  box: BoxInformation | undefined;
   ngOnInit() {
     this.loadBoxInformation();
   }
-  box!:Box;
   loadBoxInformation() {
     this.boxService.getBoxInformation().subscribe(
       (data) => {
@@ -109,7 +109,5 @@ export class UpdateBoxComponent {
         toast.present();
       }
     }
-
-
   }
-}
+}*/

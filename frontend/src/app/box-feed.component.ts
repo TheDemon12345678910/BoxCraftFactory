@@ -6,7 +6,7 @@ import {Box, ResponseDto} from "../models";
 import {State} from "../state";
 import {ModalController, ToastController} from "@ionic/angular";
 import {CreateBoxComponent} from "./create-box.component";
-import {UpdateBoxComponent} from "./update-box.component";
+//import {UpdateBoxComponent} from "./update-box.component";
 import {BoxService} from "../box.service"
 @Component({
   selector: 'app-alert',
@@ -77,7 +77,7 @@ import {BoxService} from "../box.service"
                   <ion-fab-button data-testid="createBox" (click)="openModal()">
                       <ion-icon name="hammer-outline"></ion-icon>
                   </ion-fab-button>
-                  <ion-fab-button data-testid="update" (click)="updateModal()">
+                  <ion-fab-button data-testid="update" (click)="openModal()">
                       <ion-icon name="build-outline"></ion-icon>
                   </ion-fab-button>
               </ion-fab-list>
@@ -144,12 +144,12 @@ export class BoxFeed implements OnInit {
     console.log(`Dismissed with role: ${ev.detail.role}`);
   }
 
-  async updateModal() {
+  /**async updateModal() {
     const modal = await this.modalController.create({
       component: UpdateBoxComponent
     });
     modal.present();
-  }
+  }*/
 
   async openModal() {
     const modal = await this.modalController.create({
