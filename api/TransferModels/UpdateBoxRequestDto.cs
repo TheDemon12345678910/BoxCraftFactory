@@ -5,12 +5,12 @@ namespace api.TransferModels;
 public class UpdateBoxRequestDto
 {
         [MinLength(4)]
-        public string BoxTitle { get; set; }
-        public int BoxId { get; set; }
-        public double BoxHeight { get; set; }
-        public double BoxWidth { get; set; }
-        public double BoxLength { get; set; }
-        public double BoxPrice { get; set; }
-        public string BoxType { get; set; }
-        public string BoxImgUrl { get; set; }
+        public string boxTitle { get; set; }
+        public int boxId { get; set; }
+        public double boxHeight { get; set; }
+        public double boxWidth { get; set; }
+        public double boxLength { get; set; }
+        public double boxPrice { get; set; }
+        public string boxType { get; set; }
+        public string boxImgUrl { get; set; }
 }

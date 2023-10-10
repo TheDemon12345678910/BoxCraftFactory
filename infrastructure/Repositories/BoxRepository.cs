@@ -29,14 +29,14 @@ FROM boxfactory.box;
 
     public Box UpdateBox(Box dto)
     {
-        string boxTitle = dto.BoxTitle;
-        int boxId = dto.BoxId;
-        double boxHeight = dto.BoxHeight;
-        double boxWidth = dto.BoxWidth;
-        double boxLength = dto.BoxLength;
-        double boxPrice = dto.BoxPrice;
-        string boxType = dto.BoxType;
-        string boxImgUrl = dto.BoxImgUrl;
+        string boxTitle = dto.boxTitle;
+        int boxId = dto.boxId;
+        double boxHeight = dto.boxHeight;
+        double boxWidth = dto.boxWidth;
+        double boxLength = dto.boxLength;
+        double boxPrice = dto.boxPrice;
+        string boxType = dto.boxType;
+        string boxImgUrl = dto.boxImgUrl;
 
         var sql = $@"
 UPDATE boxfactory.box SET boxTitle = @boxTitle, boxHeight = @boxHeight, boxWidth = @boxWidth, boxLength=@boxLength, boxPrice=@boxPrice, boxType=@boxType, boxImgUrl = @boxImgUrl

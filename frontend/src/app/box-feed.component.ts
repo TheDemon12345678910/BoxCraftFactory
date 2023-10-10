@@ -11,85 +11,86 @@ import {BoxService} from "../box.service"
 @Component({
   selector: 'app-alert',
   template: `
-      <ion-content style="position: absolute; top: 0;">
-          <img src="assets/icon/Box-craft.png" alt="BoxCraft"/>
-          <!--The big grid with 2 grids inside-->
-          <ion-grid>
+    <ion-content style="position: absolute; top: 0;">
+      <img src="assets/icon/Box-craft.png" alt="BoxCraft"/>
+      <!--The big grid with 2 grids inside-->
+      <ion-grid>
+        <ion-row>
+          <ion-col>
+            <ion-scroll style="height:300px">
+              <div style="height:100%">
+                <ion-grid>
+                  <ion-col>
+                    <ion-row>
+                      <ion-card class=ion-card [attr.data-testid]="'card_'+box.boxTitle"
+                                *ngFor="let box of state.boxes">
+                        <ion-toolbar>
+                          <ion-title class="card">{{box.boxTitle}}</ion-title>
+                        </ion-toolbar>
+                        <ion-buttons>
+                          <ion-button id="'btnDelete_'+{{box.boxTitle}}">delete</ion-button>
+                          <ion-alert
+                            trigger="'btnDelete_'+{{box.boxTitle}}"
+                            header="Are you sure you want to delete this box: {{box.boxTitle}}"
+                            [buttons]="alertButtons"
+                          ></ion-alert>
+                        </ion-buttons>
+
+                        <ion-card-subtitle>Price: {{box.boxPrice}} dkk</ion-card-subtitle>
+                        <img style="max-height: 200px;" [src]="box.boxImgUrl">
+                      </ion-card>
+                    </ion-row>
+                  </ion-col>
+                </ion-grid>
+              </div>
+            </ion-scroll>
+          </ion-col>
+          <ion-col>
+            <ion-grid>
               <ion-row>
-                  <ion-col>
-                      <ion-scroll style="height:300px">
-                          <div style="height:100%">
-                              <ion-grid>
-                                  <ion-col>
-                                      <ion-row>
-                                          <ion-card class=ion-card [attr.data-testid]="'card_'+box.boxTitle"
-                                                    *ngFor="let box of state.boxes">
-                                              <ion-toolbar>
-                                                  <ion-title class="card">{{box.boxTitle}}</ion-title>
-                                              </ion-toolbar>
-                                              <ion-buttons>
-                                                  <ion-button id="'btnDelete_'+{{box.boxTitle}}">delete</ion-button>
-                                                  <ion-alert
-                                                          trigger="'btnDelete_'+{{box.boxTitle}}"
-                                                          header="Are you sure you want to delete this box: {{box.boxTitle}}"
-                                                          [buttons]="alertButtons"
-                                                  ></ion-alert>
-                                              </ion-buttons>
+                <ion-col>
+                  <ion-card>
+                    <img style="max-height: 200px;" alt="Silhouette of mountains"
+                         src="https://ionicframework.com/docs/img/demos/card-media.png"/>
+                    <ion-card-header>
+                      <ion-card-title>Card Title</ion-card-title>
+                      <ion-card-subtitle>Card Subtitle</ion-card-subtitle>
+                    </ion-card-header>
 
-                                              <ion-card-subtitle>Price: {{box.boxPrice}} dkk</ion-card-subtitle>
-                                              <img style="max-height: 200px;" [src]="box.boxImgUrl">
-                                          </ion-card>
-                                      </ion-row>
-                                  </ion-col>
-                              </ion-grid>
-                          </div>
-                      </ion-scroll>
-                  </ion-col>
-                  <ion-col>
-                      <ion-grid>
-                          <ion-row>
-                              <ion-col>
-                                  <ion-card>
-                                      <img style="max-height: 200px;" alt="Silhouette of mountains"
-                                           src="https://ionicframework.com/docs/img/demos/card-media.png"/>
-                                      <ion-card-header>
-                                          <ion-card-title>Card Title</ion-card-title>
-                                          <ion-card-subtitle>Card Subtitle</ion-card-subtitle>
-                                      </ion-card-header>
-
-                                      <ion-card-content>
-                                          Here's a small text description for the card content. Nothing more, nothing
-                                          less.
-                                      </ion-card-content>
-                                  </ion-card>
-                              </ion-col>
-                          </ion-row>
-                      </ion-grid>
-                  </ion-col>
+                    <ion-card-content>
+                      Here's a small text description for the card content. Nothing more, nothing
+                      less.
+                    </ion-card-content>
+                  </ion-card>
+                </ion-col>
               </ion-row>
-          </ion-grid>
+            </ion-grid>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
 
-          <ion-fab slot="fixed" vertical="bottom" horizontal="start">
-              <ion-fab-button>
-                  <ion-icon name="chevron-forward-circle"></ion-icon>
-              </ion-fab-button>
-              <ion-fab-list side="end">
-                  <ion-fab-button data-testid="createBox" (click)="openModal()">
-                      <ion-icon name="hammer-outline"></ion-icon>
-                  </ion-fab-button>
-                  <ion-fab-button data-testid="update" (click)="updateModal()">
-                      <ion-icon name="build-outline"></ion-icon>
-                  </ion-fab-button>
-              </ion-fab-list>
-          </ion-fab>
-      </ion-content>
+      <ion-fab slot="fixed" vertical="bottom" horizontal="start">
+        <ion-fab-button>
+          <ion-icon name="chevron-forward-circle"></ion-icon>
+        </ion-fab-button>
+        <ion-fab-list side="end">
+          <ion-fab-button data-testid="createBox" (click)="openModal()">
+            <ion-icon name="hammer-outline"></ion-icon>
+          </ion-fab-button>
+          <ion-fab-button data-testid="update" (click)="updateModal()">
+            <ion-icon name="build-outline"></ion-icon>
+          </ion-fab-button>
+        </ion-fab-list>
+      </ion-fab>
+    </ion-content>
   `,
 })
 export class BoxFeed implements OnInit {
-
+  searchTerm: string | undefined;
   constructor(public http: HttpClient, public modalController: ModalController,
               public state: State, public toastController: ToastController) {
   }
+  
 
   public alertButtons = [
     {
@@ -102,6 +103,7 @@ export class BoxFeed implements OnInit {
       cssClass: 'alert-button-confirm',
     },
   ];
+  
 
   async fetchBoxes() {
 
@@ -139,7 +141,11 @@ export class BoxFeed implements OnInit {
     }
 
   }
-
+  async filterBoxes() {
+    const call = this.http.get<Box[]>('http://localhost:5000/api/FindBox?searchTerm=' + this.searchTerm);
+    const result = await firstValueFrom<Box[]>(call);
+    this.state.boxes = result;
+  }
   setResult(ev: { detail: { role: any; }; }) {
     console.log(`Dismissed with role: ${ev.detail.role}`);
   }
