@@ -115,6 +115,7 @@ export class BoxFeed implements OnInit {
 
     const result = await firstValueFrom(this.http.get<ResponseDto<Box[]>>(environment.baseUrl + '/api/boxes'))
     this.state.boxes = result.responseData!;
+    console.log(result.responseData)
 
 
   }
@@ -167,20 +168,14 @@ export class BoxFeed implements OnInit {
       url += 'typeOfBox=' + this.selectedMaterial;
     }
 
-    const result = await firstValueFrom(this.http.get<ResponseDto<Box[]>>(environment.baseUrl + url))
+    const result = await firstValueFrom(this.http.get<Box[]>(environment.baseUrl + url))
 
     //const result = await firstValueFrom(this.http.get<ResponseDto<Box[]>>(url));
 
-    this.state.boxes = result.responseData!;
+    this.state.boxes = result;
 
-    this.state.boxes = this.state.boxes.filter(b => b.boxId != boxId)
-    const toast = await this.toastController.create({
-      message: 'the box was successfully deleted yeeees',
-      duration: 1233,
-      color: "success"
-    })
-    toast.present();
-    if (!this.state.boxes || this.state.boxes.length === 0) {
+    console.log(result)
+    if(!this.state.boxes || this.state.boxes.length === 0) {
       // Show an alert if the result is empty
       this.showEmptyResultAlert();
     }
