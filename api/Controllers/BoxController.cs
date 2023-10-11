@@ -91,7 +91,7 @@ public class BoxController : ControllerBase
     
     [HttpGet]
     [Route("/api/FindBox")]
-    public ResponseDto SearchForBoxes([FromQuery]string searchTerm, string typeOfBox)
+    public object SearchForBoxes([FromQuery]string searchTerm, string typeOfBox)
     {
         // Validate input
         if (string.IsNullOrEmpty(searchTerm) && string.IsNullOrEmpty(typeOfBox))
@@ -104,11 +104,7 @@ public class BoxController : ControllerBase
             throw new ArgumentException("Invalid search term. The length must be greater than 3 characters.");
         }
         
-        return new ResponseDto()
-        {
-            MessageToClient = "Successfully fetched",
-            ResponseData = _boxService.SearchForBox(searchTerm, typeOfBox)
-        };
+        return _boxService.SearchForBox(searchTerm, typeOfBox);
     }
 
 }

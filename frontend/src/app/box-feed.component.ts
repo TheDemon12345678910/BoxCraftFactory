@@ -7,7 +7,6 @@ import {State} from "../state";
 import {ModalController, ToastController} from "@ionic/angular";
 import {CreateBoxComponent} from "./create-box.component";
 import {UpdateBoxComponent} from "./update-box.component";
-import {BoxService} from "../box.service"
 import {AlertController} from '@ionic/angular';
 
 @Component({
@@ -180,9 +179,9 @@ export class BoxFeed {
       url += 'typeOfBox=' + this.selectedMaterial;
     }
 
-    const result = await firstValueFrom(this.http.get<ResponseDto<Box[]>>(url));
+    const result = await firstValueFrom(this.http.get<Box[]>(url));
 
-    this.state.boxes = result.responseData!;
+    this.state.boxes = result;
 
     if (!this.state.boxes || this.state.boxes.length === 0) {
       // Show an alert if the result is empty
