@@ -7,7 +7,7 @@ import {State} from "../state";
 import {ModalController, ToastController} from "@ionic/angular";
 import {CreateBoxComponent} from "./create-box.component";
 import {UpdateBoxComponent} from "./update-box.component";
-import {BoxService} from "../box.service"
+import {BoxService} from "../box.service";
 import {AlertController} from '@ionic/angular';
 
 @Component({
@@ -33,48 +33,35 @@ import {AlertController} from '@ionic/angular';
           <ion-grid>
               <ion-row>
                   <ion-col>
-                      <ion-scroll style="height:300px">
-                          <div style="height:100%">
-                              <ion-grid>
-                                  <ion-col>
-                                      <ion-row>
-                                          <ion-card class=ion-card [attr.data-testid]="'card_'+box.boxTitle"
-                                                    *ngFor="let box of state.boxes">
-                                              <ion-toolbar>
-                                                  <ion-title class="card">{{box.boxTitle}}</ion-title>
-                                              </ion-toolbar>
-                                              <ion-buttons>
-                                                  <ion-button id="'btnDelete_'+{{box.boxTitle}}">delete</ion-button>
-                                                  <ion-alert
-                                                          trigger="'btnDelete_'+{{box.boxTitle}}"
-                                                          header="Are you sure you want to delete this box: {{box.boxTitle}}"
-                                                          [buttons]="alertButtons"
-                                                  ></ion-alert>
-                                              </ion-buttons>
-
-                                              <ion-card-subtitle>Price: {{box.boxPrice}} dkk</ion-card-subtitle>
-                                              <img style="max-height: 200px;" [src]="box.boxImgUrl">
-                                          </ion-card>
-                                      </ion-row>
-                                  </ion-col>
-                              </ion-grid>
-                          </div>
-                      </ion-scroll>
+                      <div style="width: 700px;height: 600px" class="scrollBox">
+                          <ion-grid>
+                              <ion-col>
+                                  <ion-row>
+                                      <ion-card (click)="clickedCard(box)" class=ion-card
+                                                [attr.data-testid]="'card_'+box.boxTitle"
+                                                *ngFor="let box of state.boxes">
+                                          <img style="max-height: 200px;" [src]="box.boxImgUrl">
+                                          <ion-card-title class="card">{{box.boxTitle}}</ion-card-title>
+                                      </ion-card>
+                                  </ion-row>
+                              </ion-col>
+                          </ion-grid>
+                      </div>
                   </ion-col>
                   <ion-col>
                       <ion-grid>
                           <ion-row>
                               <ion-col>
                                   <ion-card>
-                                      <img style="max-height: 200px;" alt="Silhouette of mountains"
+                                      <img id="infoImg" style="max-height: 200px;"
                                            src="https://ionicframework.com/docs/img/demos/card-media.png"/>
                                       <ion-card-header>
-                                          <ion-card-title>Card Title</ion-card-title>
+                                          <ion-card-title id="infocard">Card Title</ion-card-title>
                                           <ion-card-subtitle>Card Subtitle</ion-card-subtitle>
                                       </ion-card-header>
-
                                       <ion-card-content>
-                                          Here's a small text description for the card content. Nothing more, nothing
+                                          Here's a small text description for the card content.
+                                          Nothing more, nothing
                                           less.
                                       </ion-card-content>
                                   </ion-card>
@@ -100,7 +87,8 @@ import {AlertController} from '@ionic/angular';
       </ion-content>
   `,
 })
-export class BoxFeed {
+
+export class BoxFeed implements OnInit {
   searchTerm: string | undefined;
   selectedMaterial: string | undefined;
 
@@ -110,20 +98,20 @@ export class BoxFeed {
     this.fetchBoxes();
   }
 
-
-  public alertButtons = [
-    {
-      text: 'No',
-      cssClass: 'alert-button-cancel',
-
-    },
-    {
-      text: 'Yes',
-      cssClass: 'alert-button-confirm',
-    },
-  ];
+  ngOnInit(): void {
+        throw new Error("Method not implemented.");
+    }
 
 
+  clickedCard(box: Box){
+    console.log("Hello you clicked the card with id: " + box.boxId + " with the name: " + box.boxTitle);
+    var infoCardTitle = document.getElementById("infocard");
+    var infoImage = document.getElementById("infoImg") as HTMLImageElement;
+    if(infoCardTitle != null && infoImage != null){
+      infoCardTitle.textContent = box.boxTitle + "";
+      infoImage.src = box.boxImgUrl + "";
+    }
+  }
   async fetchBoxes() {
 
     const result = await firstValueFrom(this.http.get<ResponseDto<Box[]>>(environment.baseUrl + '/api/boxes'))
@@ -180,11 +168,12 @@ export class BoxFeed {
       url += 'typeOfBox=' + this.selectedMaterial;
     }
 
-    const result = await firstValueFrom(this.http.get<ResponseDto<Box[]>>(url));
+    const result = await firstValueFrom(this.http.get<Box[]>(url))
 
-    this.state.boxes = result.responseData!;
+    this.state.boxes = result;
 
-    if (!this.state.boxes || this.state.boxes.length === 0) {
+    console.log(result)
+    if(!this.state.boxes || this.state.boxes.length === 0) {
       // Show an alert if the result is empty
       this.showEmptyResultAlert();
     }
@@ -228,5 +217,6 @@ export class BoxFeed {
   }
 
   protected readonly Math = Math;
+  protected readonly console = console;
 }
 
