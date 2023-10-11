@@ -11,7 +11,17 @@ export class BoxService {
 
   constructor(private http: HttpClient) {}
 
-  getBoxInformation(): Observable<any> {
-    return this.http.get<any>(this.apiUrl);
+  getBoxInformation(): Observable<BoxInformation> {
+    return this.http.get<BoxInformation>(this.apiUrl);
   }
+}
+
+export interface BoxInformation {
+  title: string;
+  height: number;
+  length: number;
+  width: number;
+  price: number;
+  type: string;
+  imageUrl: string;
 }

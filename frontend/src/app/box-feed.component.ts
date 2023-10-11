@@ -6,7 +6,8 @@ import {Box, ResponseDto} from "../models";
 import {State} from "../state";
 import {ModalController, ToastController} from "@ionic/angular";
 import {CreateBoxComponent} from "./create-box.component";
-import {BoxService} from "../box.service"
+import {UpdateBoxComponent} from "./update-box.component";
+import {BoxService} from "../box.service";
 import {FormBuilder, Validators} from "@angular/forms";
 
 @Component({
@@ -14,8 +15,8 @@ import {FormBuilder, Validators} from "@angular/forms";
   template: `
       <ion-content style="position: absolute; top: 0;">
           <img src="assets/icon/Box-craft.png" alt="BoxCraft"/>
-          <ion-item>
-              <ion-input [formControl]="createNewboxForm.controls.boxTitle" data-testid="titleInput"
+          <ion-item >
+              <ion-input class="search-field" [formControl]="createNewboxForm.controls.boxTitle" data-testid="titleInput"
                          label="Insert title for box, please">
               </ion-input>
               <ion-button (click)="filterBoxes()">click me to find box</ion-button>
@@ -51,9 +52,9 @@ import {FormBuilder, Validators} from "@angular/forms";
                                           <ion-card-title id="infocard">Card Title</ion-card-title>
                                           <ion-card-subtitle>Card Subtitle</ion-card-subtitle>
                                       </ion-card-header>
-
                                       <ion-card-content>
-                                          Here's a small text description for the card content. Nothing more, nothing
+                                          Here's a small text description for the card content.
+                                          Nothing more, nothing
                                           less.
                                       </ion-card-content>
                                   </ion-card>
@@ -63,7 +64,6 @@ import {FormBuilder, Validators} from "@angular/forms";
                   </ion-col>
               </ion-row>
           </ion-grid>
-
           <ion-fab slot="fixed" vertical="bottom" horizontal="start">
               <ion-fab-button>
                   <ion-icon name="chevron-forward-circle"></ion-icon>
@@ -89,18 +89,6 @@ export class BoxFeed implements OnInit {
               public state: State, public toastController: ToastController, public fb: FormBuilder) {
   }
 
-
-  public alertButtons = [
-    {
-      text: 'No',
-      cssClass: 'alert-button-cancel',
-
-    },
-    {
-      text: 'Yes',
-      cssClass: 'alert-button-confirm',
-    },
-  ];
 
   clickedCard(box: Box){
     console.log("Hello you clicked the card with id: " + box.boxId + " with the name: " + box.boxTitle);
@@ -158,7 +146,7 @@ export class BoxFeed implements OnInit {
 
   async updateModal() {
     const modal = await this.modalController.create({
-      component: CreateBoxComponent
+      component: UpdateBoxComponent
     });
     modal.present();
   }
