@@ -6,7 +6,7 @@ import {Box, ResponseDto} from "../models";
 import {State} from "../state";
 import {ModalController, ToastController} from "@ionic/angular";
 import {CreateBoxComponent} from "./create-box.component";
-//import {UpdateBoxComponent} from "./update-box.component";
+import {UpdateBoxComponent} from "./update-box.component";
 import {BoxService} from "../box.service"
 @Component({
   selector: 'app-alert',
@@ -151,7 +151,7 @@ export class BoxFeed implements OnInit {
 
   async updateModal() {
     const modal = await this.modalController.create({
-      component: CreateBoxComponent
+      component: UpdateBoxComponent
     });
     modal.present();
   }

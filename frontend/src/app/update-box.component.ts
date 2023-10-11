@@ -1,4 +1,4 @@
-/**
+
 import {Component, NgModule} from "@angular/core";
 import {BoxService, BoxInformation} from"../box.service"
 import {FormBuilder, Validators} from "@angular/forms";
@@ -9,6 +9,7 @@ import {State} from "../state";
 import {firstValueFrom} from "rxjs";
 import {ModalController, ToastController} from "@ionic/angular";
 @Component({
+  
   template: `
 
   <ion-list>
@@ -110,4 +111,4 @@ export class UpdateBoxComponent {
       }
     }
   }
-}*/
+}
