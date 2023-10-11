@@ -15,9 +15,21 @@
   --ion-color-scrollBarGery: #9B9B9B;
   --ion-background-color: #FFFFFF;
 }
+.card{
+  color: #7F8AF4;
+  text-align: center;
+}
 .ion-card{
   height: 20%;
   width: 30%;
+}
+.scrollBox{
+  border: none;
+  padding: 5px;
+  font: 24px/36px sans-serif;
+  width: 800px;
+  height: 600px;
+  overflow: scroll;
 }
 
 .search-field{

@@ -103,7 +103,6 @@ public class BoxController : ControllerBase
         {
             throw new ArgumentException("Invalid search term. The length must be greater than 3 characters.");
         }
-        
         return _boxService.SearchForBox(searchTerm, typeOfBox);
     }
 
