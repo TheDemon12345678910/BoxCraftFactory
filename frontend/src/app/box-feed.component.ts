@@ -20,22 +20,16 @@ import {AlertController} from '@ionic/angular';
           <ion-item>
               <ion-input type="text" [(ngModel)]="searchTerm" placeholder="Search for boxes"
                          aria-label="Search for boxes"></ion-input>
-
               <ion-label>Select Material</ion-label>
               <ion-select [(ngModel)]="selectedMaterial" label="Select Material">
                   <ion-select-option value="Cardboard">Cardboard</ion-select-option>
                   <ion-select-option value="Wood">Wood</ion-select-option>
                   <ion-select-option value="Metal">Metal</ion-select-option>
                   <ion-select-option value="Plastic">Plastic</ion-select-option>
-
-
               </ion-select>
-
               <ion-button (click)="clearAndFetchBoxes()">Clear</ion-button>
               <ion-button (click)="filterBoxes()">Search</ion-button>
           </ion-item>
-
-
           <ion-grid>
               <ion-row>
                   <ion-col>
@@ -67,8 +61,28 @@ import {AlertController} from '@ionic/angular';
                           </div>
                       </ion-scroll>
                   </ion-col>
+                  <ion-col>
+                      <ion-grid>
+                          <ion-row>
+                              <ion-col>
+                                  <ion-card>
+                                      <img style="max-height: 200px;" alt="Silhouette of mountains"
+                                           src="https://ionicframework.com/docs/img/demos/card-media.png"/>
+                                      <ion-card-header>
+                                          <ion-card-title>Card Title</ion-card-title>
+                                          <ion-card-subtitle>Card Subtitle</ion-card-subtitle>
+                                      </ion-card-header>
+
+                                      <ion-card-content>
+                                          Here's a small text description for the card content. Nothing more, nothing
+                                          less.
+                                      </ion-card-content>
+                                  </ion-card>
+                              </ion-col>
+                          </ion-row>
+                      </ion-grid>
+                  </ion-col>
               </ion-row>
-         
           </ion-grid>
           <ion-fab slot="fixed" vertical="bottom" horizontal="start">
               <ion-fab-button>
