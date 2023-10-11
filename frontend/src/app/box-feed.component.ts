@@ -87,6 +87,7 @@ import {AlertController} from '@ionic/angular';
       </ion-content>
   `,
 })
+
 export class BoxFeed implements OnInit {
   searchTerm: string | undefined;
   selectedMaterial: string | undefined;
@@ -115,7 +116,6 @@ export class BoxFeed implements OnInit {
 
     const result = await firstValueFrom(this.http.get<ResponseDto<Box[]>>(environment.baseUrl + '/api/boxes'))
     this.state.boxes = result.responseData!;
-    console.log(result.responseData)
 
 
   }
@@ -153,10 +153,10 @@ export class BoxFeed implements OnInit {
   }
 
   async filterBoxes() {
-    let url = '/api/FindBox?';
+    let url = environment.baseUrl + '/api/FindBox?';
 
     if (this.searchTerm) {
-      url += 'searchTerm=' + this.searchTerm.toString();
+      url += 'searchTerm=' + this.searchTerm;
     }
 
     if (this.selectedMaterial) {
@@ -168,9 +168,7 @@ export class BoxFeed implements OnInit {
       url += 'typeOfBox=' + this.selectedMaterial;
     }
 
-    const result = await firstValueFrom(this.http.get<Box[]>(environment.baseUrl + url))
-
-    //const result = await firstValueFrom(this.http.get<ResponseDto<Box[]>>(url));
+    const result = await firstValueFrom(this.http.get<Box[]>(url))
 
     this.state.boxes = result;
 
