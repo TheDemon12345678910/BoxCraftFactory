@@ -90,19 +90,27 @@ public class BoxController : ControllerBase
     }
     
     [HttpGet]
-    [Route("/api/FindBox/")]
-    public IEnumerable<Box> SearchForBoxes([FromQuery]string searchTerm)
+    [Route("/api/FindBox")]
+    public ResponseDto SearchForBoxes([FromQuery]string searchTerm, string typeOfBox)
     {
         // Validate input
-        if (searchTerm.Length > 3)
+        if (string.IsNullOrEmpty(searchTerm) && string.IsNullOrEmpty(typeOfBox))
         {
-            return _boxService.SearchForBox(searchTerm);
+            throw new ArgumentException("At least one of searchTerm or typeOfBox must be provided.");
         }
-        else
+
+        if (!string.IsNullOrEmpty(searchTerm) && searchTerm.Length <= 3)
         {
             throw new ArgumentException("Invalid search term. The length must be greater than 3 characters.");
         }
+        
+        return new ResponseDto()
+        {
+            MessageToClient = "Successfully fetched",
+            ResponseData = _boxService.SearchForBox(searchTerm, typeOfBox)
+        };
     }
+
 }
 
 

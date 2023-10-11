@@ -56,11 +56,11 @@ public class BoxService
         }
     }
 
-    public List<Box> SearchForBox(string searchTerm)
+    public IEnumerable<BoxFeedQuery> SearchForBox(string searchTerm, string typeOfBox)
     {
-        List<Box> result = _boxRepository.FindBoxes(searchTerm);
+        IEnumerable<BoxFeedQuery> result = _boxRepository.FindBoxes(searchTerm, typeOfBox);
 
-        if (result == null || result.Count == 0)
+        if (result == null)
         {
             throw new Exception("Could not find box");
         }
