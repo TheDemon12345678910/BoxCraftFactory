@@ -12,38 +12,42 @@ import {ModalController, ToastController} from "@ionic/angular";
 
   <ion-list>
     <ion-item>
-      <ion-input [formControl]="createNewboxForm.controls.boxTitle" data-testid="titleInput" label="Insert title for box, please">
-
+      <ion-input class="input" [formControl]="createNewboxForm.controls.boxTitle" data-testid="titleInput" label="The name of the new box: ">
       </ion-input>
       <div *ngIf="!createNewboxForm.controls.boxTitle.valid">box title must be 4 chars or more</div>
     </ion-item>
+    <br>
+    <h3>Dimentions</h3>
+    <br>
     <ion-item>
-      <ion-input [formControl]="createNewboxForm.controls.boxHeight" data-testid="boxHeightInput"  label="insert height for box please">
+      <ion-input class="inputAndMargin" [formControl]="createNewboxForm.controls.boxHeight" data-testid="boxHeightInput"  label="Height: ">
 
       </ion-input>
     </ion-item>
     <ion-item>
-      <ion-input [formControl]="createNewboxForm.controls.boxWidth" data-testid="boxWidthInput"  label="insert width for box please">
+      <ion-input class="inputAndMargin" [formControl]="createNewboxForm.controls.boxWidth" data-testid="boxWidthInput"  label="Width: ">
 
       </ion-input>
     </ion-item>
     <ion-item>
-      <ion-input [formControl]="createNewboxForm.controls.boxLenght" data-testid="boxLenghtInput"  label="insert lenght for box please">
+      <ion-input class="inputAndMargin" [formControl]="createNewboxForm.controls.boxLenght" data-testid="boxLenghtInput"  label="Lenght: ">
+
+      </ion-input>
+    </ion-item>
+    <br>
+    <br>
+    <ion-item>
+      <ion-input class="input" [formControl]="createNewboxForm.controls.boxPrice" data-testid="boxPriceInput"  label="Cost price: ">
 
       </ion-input>
     </ion-item>
     <ion-item>
-      <ion-input [formControl]="createNewboxForm.controls.boxPrice" data-testid="boxPriceInput"  label="insert price for box please">
-      
-      </ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-input [formControl]="createNewboxForm.controls.boxType" data-testid="boxTypeInput"  label="insert a type for the box please">
+      <ion-input class="input" [formControl]="createNewboxForm.controls.boxType" data-testid="boxTypeInput"  label="Type: ">
 
       </ion-input>
     </ion-item>
     <ion-item>
-      <ion-input  [formControl]="createNewboxForm.controls.boxImgUrl"  data-testid="boxImgUrlInput"   label="insert boximgurl for box please">
+      <ion-input class="input" [formControl]="createNewboxForm.controls.boxImgUrl"  data-testid="boxImgUrlInput"   label="Box imgage url: ">
 
       </ion-input>
     </ion-item>

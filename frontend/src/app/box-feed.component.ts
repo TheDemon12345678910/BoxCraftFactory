@@ -15,22 +15,28 @@ import {AlertController} from '@ionic/angular';
   template: `
       <ion-content style="position: absolute; top: 0;">
           <img src="assets/icon/Box-craft.png" alt="BoxCraft"/>
-          <!--The big grid with 2 grids inside-->
 
-          <ion-item>
-              <ion-input class="search-field" type="text" [(ngModel)]="searchTerm" placeholder="Search for boxes"
-                         aria-label="Search for boxes"></ion-input>
-              <ion-label>Select Material</ion-label>
-              <ion-select [(ngModel)]="selectedMaterial" label="Select Material">
-                  <ion-select-option value="Cardboard">Cardboard</ion-select-option>
-                  <ion-select-option value="Wood">Wood</ion-select-option>
-                  <ion-select-option value="Metal">Metal</ion-select-option>
-                  <ion-select-option value="Plastic">Plastic</ion-select-option>
-              </ion-select>
-              <ion-button class="button-search" (click)="clearAndFetchBoxes()">Clear</ion-button>
-              <ion-button class="button-search" (click)="filterBoxes()">Search</ion-button>
-          </ion-item>
+          <!--The big grid with 2 grids inside-->
+        <ion-grid>
+          <ion-row>
+            <ion-col>
           <ion-grid>
+              <ion-row>
+                  <ion-item>
+                      <ion-input class="search-field" type="text" [(ngModel)]="searchTerm"
+                                 placeholder="Search for boxes"
+                                 aria-label="Search for boxes"></ion-input>
+                      <ion-label>Select Material</ion-label>
+                      <ion-select [(ngModel)]="selectedMaterial" label="Select Material">
+                          <ion-select-option value="Cardboard">Cardboard</ion-select-option>
+                          <ion-select-option value="Wood">Wood</ion-select-option>
+                          <ion-select-option value="Metal">Metal</ion-select-option>
+                          <ion-select-option value="Plastic">Plastic</ion-select-option>
+                      </ion-select>
+                      <ion-button class="button-search" (click)="clearAndFetchBoxes()">Clear</ion-button>
+                      <ion-button class="button-search" (click)="filterBoxes()">Search</ion-button>
+                  </ion-item>
+              </ion-row>
               <ion-row>
                   <ion-col>
                       <div class="cards-list">
@@ -51,44 +57,43 @@ import {AlertController} from '@ionic/angular';
                           </ion-grid>
                       </div>
                   </ion-col>
-                  <ion-col>
-                      <ion-grid>
-                          <ion-row>
-                              <ion-col>
-                                  <ion-card class="box-info-card">
-                                      <div style="display: flex; align-items: center;justify-content: center;">
-                                          <img id="infoImg" style="max-height: 250px;"
-                                               src="https://ionicframework.com/docs/img/demos/card-media.png"/>
-                                      </div>
-                                      <ion-card-header>
-                                          <ion-card-title class="box-info-card-name" id="infocard">Card Title
-                                          </ion-card-title>
-                                      </ion-card-header>
-                                      <ion-card-content id="content" class="box-info-card-data">
-                                          <p id="infoContent"></p>
-                                          <strong>Mesurements</strong>
-                                          <p id="height"></p>
-                                          <p id="lenth"></p>
-                                          <p id="width"></p>
-                                        <br>
-                                          <p id="type"></p>
-                                        <br>
-                                          <p id="price"></p>
-                                          <button class="button-createAndEdit" id="deleteButton" (click)="deleteBox()">
-                                              <ion-icon name="trash-outline"></ion-icon>
-                                          </button>
-                                          <button class="button-createAndEdit" id="updateButton"
-                                                  (click)="updateModal()">
-                                              <ion-icon name="build-outline"></ion-icon>
-                                          </button>
-                                      </ion-card-content>
-                                  </ion-card>
-                              </ion-col>
-                          </ion-row>
-                      </ion-grid>
-                  </ion-col>
               </ion-row>
           </ion-grid>
+            </ion-col>
+            <ion-col>
+              <ion-col offset="1">
+                <ion-card class="box-info-card">
+                  <div style="display: flex; align-items: center;justify-content: center;">
+                    <img id="infoImg" style="max-height: 250px;"
+                         src="https://ionicframework.com/docs/img/demos/card-media.png"/>
+                  </div>
+                  <ion-card-header>
+                    <ion-card-title class="box-info-card-name" id="infocard">Card Title
+                    </ion-card-title>
+                  </ion-card-header>
+                  <ion-card-content id="content" class="box-info-card-data">
+                    <p id="infoContent"></p>
+                    <strong>Mesurements</strong>
+                    <p id="height"></p>
+                    <p id="lenth"></p>
+                    <p id="width"></p>
+                    <br>
+                    <p id="type"></p>
+                    <br>
+                    <p id="price"></p>
+                    <button class="button-createAndEdit" id="deleteButton" (click)="deleteBox()">
+                      <ion-icon name="trash-outline"></ion-icon>
+                    </button>
+                    <button class="button-createAndEdit" id="updateButton"
+                            (click)="updateModal()">
+                      <ion-icon name="build-outline"></ion-icon>
+                    </button>
+                  </ion-card-content>
+                </ion-card>
+              </ion-col>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
           <ion-fab slot="fixed" vertical="bottom" horizontal="start">
               <ion-fab-button>
                   <ion-icon name="chevron-forward-circle"></ion-icon>
@@ -170,6 +175,9 @@ export class BoxFeed implements OnInit {
         color: "success"
       })
       toast.present();
+      //Get another box in the display
+      const result = await firstValueFrom(this.http.get<Box[]>("http://localhost:5000/api/FindBox?typeOfBox=Cardboard"))
+      this.setInfoCard(result[0]);
     } catch (e) {
       if (e instanceof HttpErrorResponse) {
         const toast = await this.toastController.create({
