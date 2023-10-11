@@ -1,7 +1,7 @@
 // Ionic Variables and Theming. For more info, please see:
 // http://ionicframework.com/docs/theming/
-
 /** Ionic CSS Variables **/
+@import url('https://fonts.googleapis.com/css2?family=Assistant:wght@200;300;400;500;600;700;800&family=Orbitron&display=swap');
 :root {
   /**Colorpallet**/
   --ion-color-lightBlue: #90B6BF;
@@ -18,18 +18,11 @@
 .card{
   color: #7F8AF4;
   text-align: center;
+
 }
 .ion-card{
   height: 20%;
   width: 30%;
-}
-.scrollBox{
-  border: none;
-  padding: 5px;
-  font: 24px/36px sans-serif;
-  width: 800px;
-  height: 600px;
-  overflow: scroll;
 }
 
 .search-field{
@@ -55,6 +48,7 @@
   height: 659px;
   flex-shrink: 0;
   border: 5px solid #D4D4D4;
+  overflow: scroll;
   background: #CCCACA;
 }
 
@@ -69,7 +63,7 @@
 .box-card-name{
   color: #000000;
   text-align: center;
-  font-family: Orbitron;
+  font-family: 'Orbitron', sans-serif;
   font-size: 24px;
   font-style: normal;
   font-weight: 400;
@@ -87,7 +81,7 @@
 .box-info-card-name{
   color: #000000;
   text-align: center;
-  font-family: Orbitron;
+  font-family: 'Orbitron', sans-serif;
   font-size: 28px;
   font-style: normal;
   font-weight: 700;
@@ -97,7 +91,7 @@
 .box-info-card-data{
   color: #FFFFFF;
   text-align: center;
-  font-family: Orbitron;
+  font-family: 'Orbitron', sans-serif;
   font-size: 24px;
   font-style: normal;
   font-weight: 700;
@@ -105,9 +99,10 @@
 }
 
 .button-createAndEdit{
+  border-radius: 12px;
   background-color: #7F8AF4;
-  width: 120px;
-  height: 120px;
+  width: 60px;
+  height: 60px;
   flex-shrink: 0;
 }
 
@@ -120,7 +115,7 @@
 .createAndEdit-txt-headline{
   color: #000000;
   text-align: center;
-  font-family: Orbitron;
+  font-family: 'Orbitron', sans-serif;
   font-size: 28px;
   font-style: normal;
   font-weight: 700;
@@ -129,7 +124,7 @@
 .createAndEdit-txt{
   color: #000000;
   text-align: center;
-  font-family: Orbitron;
+  font-family: 'Orbitron', sans-serif;
   font-size: 28px;
   font-style: italic;
   font-weight: 450;
@@ -148,6 +143,24 @@
   height: 120px;
   flex-shrink: 0;
 }
+
+
+/* Scrollbar styles */
+::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+
+
+::-webkit-scrollbar-thumb {
+  background: #9B9B9B;
+  border-radius: 30px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #9B9B9B;
+}
+
 /*
  * iOS Dark Theme
  * -------------------------------------------
