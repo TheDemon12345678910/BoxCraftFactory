@@ -46,11 +46,13 @@ RETURNING *;
 
         using (var conn = _dataSource.OpenConnection())
         {
-            return conn.QueryFirst<Box>(sql, new { boxTitle, boxHeight, boxWidth, boxLength, boxPrice, boxType, boxImgUrl, boxId});
+            return conn.QueryFirst<Box>(sql,
+                new { boxTitle, boxHeight, boxWidth, boxLength, boxPrice, boxType, boxImgUrl, boxId });
         }
     }
 
-    public Box CreateBox(string boxTitle, double boxHeight, double boxWidth, double boxLength, double boxPrice, string boxType, string boxImgUrl)
+    public Box CreateBox(string boxTitle, double boxHeight, double boxWidth, double boxLength, double boxPrice,
+        string boxType, string boxImgUrl)
     {
         var sql = $@"
 INSERT INTO boxfactory.box (boxTitle, boxHeight, boxWidth, boxLength, boxPrice, boxType, boxImgUrl) 
@@ -59,7 +61,8 @@ RETURNING *;
 ";
         using (var conn = _dataSource.OpenConnection())
         {
-            return conn.QueryFirst<Box>(sql, new { boxTitle, boxHeight, boxWidth, boxLength, boxPrice, boxType, boxImgUrl });
+            return conn.QueryFirst<Box>(sql,
+                new { boxTitle, boxHeight, boxWidth, boxLength, boxPrice, boxType, boxImgUrl });
         }
     }
 
@@ -80,14 +83,17 @@ RETURNING *;
             return conn.ExecuteScalar<int>(sql, new { boxTitle }) == 1;
         }
     }
-    
-    public List<Box> FindBoxes(string searchTerm)
+
+    public IEnumerable<BoxFeedQuery> FindBoxes(string searchTerm, string typeOfBox)
     {
         var sql = @"SELECT *
-FROM boxfactory.box WHERE boxTitle LIKE '%' || @searchTerm || '%';";
+        FROM boxfactory.box
+        WHERE (@searchTerm IS NULL OR boxTitle LIKE '%' || @searchTerm || '%')
+        AND (@typeOfBox IS NULL OR boxType LIKE '%' || @typeOfBox || '%');
+        ";
         using (var conn = _dataSource.OpenConnection())
         {
-            return conn.Query<Box>(sql, new {searchTerm}).ToList();
+            return conn.Query<BoxFeedQuery>(sql, new { searchTerm, typeOfBox });
         }
     }
 }

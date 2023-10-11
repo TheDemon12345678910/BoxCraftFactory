@@ -8,21 +8,28 @@ import {ModalController, ToastController} from "@ionic/angular";
 import {CreateBoxComponent} from "./create-box.component";
 import {UpdateBoxComponent} from "./update-box.component";
 import {BoxService} from "../box.service";
-import {FormBuilder, Validators} from "@angular/forms";
+import {AlertController} from '@ionic/angular';
 
 @Component({
   selector: 'app-alert',
   template: `
       <ion-content style="position: absolute; top: 0;">
           <img src="assets/icon/Box-craft.png" alt="BoxCraft"/>
-          <ion-item >
-              <ion-input class="search-field" [formControl]="createNewboxForm.controls.boxTitle" data-testid="titleInput"
-                         label="Insert title for box, please">
-              </ion-input>
-              <ion-button (click)="filterBoxes()">click me to find box</ion-button>
-          </ion-item>
-
           <!--The big grid with 2 grids inside-->
+
+          <ion-item>
+              <ion-input type="text" [(ngModel)]="searchTerm" placeholder="Search for boxes"
+                         aria-label="Search for boxes"></ion-input>
+              <ion-label>Select Material</ion-label>
+              <ion-select [(ngModel)]="selectedMaterial" label="Select Material">
+                  <ion-select-option value="Cardboard">Cardboard</ion-select-option>
+                  <ion-select-option value="Wood">Wood</ion-select-option>
+                  <ion-select-option value="Metal">Metal</ion-select-option>
+                  <ion-select-option value="Plastic">Plastic</ion-select-option>
+              </ion-select>
+              <ion-button (click)="clearAndFetchBoxes()">Clear</ion-button>
+              <ion-button (click)="filterBoxes()">Search</ion-button>
+          </ion-item>
           <ion-grid>
               <ion-row>
                   <ion-col>
@@ -81,13 +88,18 @@ import {FormBuilder, Validators} from "@angular/forms";
   `,
 })
 export class BoxFeed implements OnInit {
+  searchTerm: string | undefined;
+  selectedMaterial: string | undefined;
 
-  createNewboxForm = this.fb.group({
-    boxTitle: ['', Validators.minLength(4)]
-  })
   constructor(public http: HttpClient, public modalController: ModalController,
-              public state: State, public toastController: ToastController, public fb: FormBuilder) {
+              public state: State, public toastController: ToastController, private alertController: AlertController) {
+
+    this.fetchBoxes();
   }
+
+  ngOnInit(): void {
+        throw new Error("Method not implemented.");
+    }
 
 
   clickedCard(box: Box){
@@ -107,10 +119,13 @@ export class BoxFeed implements OnInit {
 
   }
 
-  ngOnInit(): void {
+  async clearAndFetchBoxes() {
+
+    this.searchTerm = '';
+    this.selectedMaterial = '';
+
     this.fetchBoxes();
   }
-
 
   async deleteBox(boxId: number | undefined) {
 
@@ -135,10 +150,60 @@ export class BoxFeed implements OnInit {
     }
 
   }
+
   async filterBoxes() {
-    const call = this.http.get<Box[]>(environment.baseUrl + '/api/FindBox?searchTerm=' + this.createNewboxForm.getRawValue().boxTitle);
-    const result = await firstValueFrom<Box[]>(call);
-    this.state.boxes = result;
+    let url = '/api/FindBox?';
+
+    if (this.searchTerm) {
+      url += 'searchTerm=' + this.searchTerm.toString();
+    }
+
+    if (this.selectedMaterial) {
+      // If there's already a search term, add an ampersand before adding the material
+      if (this.searchTerm) {
+        url += '&';
+      }
+
+      url += 'typeOfBox=' + this.selectedMaterial;
+    }
+
+    const result = await firstValueFrom(this.http.get<ResponseDto<Box[]>>(environment.baseUrl + url))
+
+    //const result = await firstValueFrom(this.http.get<ResponseDto<Box[]>>(url));
+
+    this.state.boxes = result.responseData!;
+
+    this.state.boxes = this.state.boxes.filter(b => b.boxId != boxId)
+    const toast = await this.toastController.create({
+      message: 'the box was successfully deleted yeeees',
+      duration: 1233,
+      color: "success"
+    })
+    toast.present();
+    if (!this.state.boxes || this.state.boxes.length === 0) {
+      // Show an alert if the result is empty
+      this.showEmptyResultAlert();
+    }
+  }
+
+
+
+  async showEmptyResultAlert() {
+    const alert = await this.alertController.create({
+      header: 'No Boxes Found',
+      message: 'Your search did not return any boxes.',
+      buttons: [
+        {
+          text: 'OK',
+          handler: () => {
+            // Callback function when OK button is clicked
+            this.fetchBoxes();
+          }
+        }
+      ]
+    });
+
+    await alert.present();
   }
   setResult(ev: { detail: { role: any; }; }) {
     console.log(`Dismissed with role: ${ev.detail.role}`);
