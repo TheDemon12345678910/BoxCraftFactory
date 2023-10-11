@@ -19,7 +19,7 @@ import {AlertController} from '@ionic/angular';
 
           <ion-item>
               <ion-input type="text" [(ngModel)]="searchTerm" placeholder="Search for boxes"
-                         aria-label="Search for boxes"></ion-input>
+                         aria-label="Search"></ion-input>
               <ion-label>Select Material</ion-label>
               <ion-select [(ngModel)]="selectedMaterial" label="Select Material">
                   <ion-select-option value="Cardboard">Cardboard</ion-select-option>
