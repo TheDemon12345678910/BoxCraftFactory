@@ -30,3 +30,6 @@ insert into BOXFACTORY.box (boxTitle, boxHeight, boxWidth, boxLength, boxPrice, 
 insert into BOXFACTORY.box (boxTitle, boxHeight, boxWidth, boxLength, boxPrice, boxType, boxImgUrl) values ('Computer box', 60, 63, 57, 9, 'Cardboard', 'https://auspost.com.au/shop/static/WFS/AusPost-Shop-Site/-/AusPost-Shop/en_AU/product/90442/1/resized_560x560.png');
 insert into BOXFACTORY.box (boxTitle, boxHeight, boxWidth, boxLength, boxPrice, boxType, boxImgUrl) values ('Shoe box', 12, 35, 95, 18, 'Cardboard', 'https://undefinedmarket.dk/cdn/shop/products/UndefinedMarketMysteryBox.png?v=1644246560');
 insert into BOXFACTORY.box (boxTitle, boxHeight, boxWidth, boxLength, boxPrice, boxType, boxImgUrl) values ('Purple box', 94, 35, 82, 42, 'Cardboard', 'https://smstationery.com.ph/cdn/shop/products/10083193a-minGlossyStorageBoxPastelColors.png?v=1649303539');
+
+
+SELECT * FROM BOXFACTORY.box;
