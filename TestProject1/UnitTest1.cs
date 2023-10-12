@@ -59,29 +59,21 @@ public class Tests : PageTest
 
         await Page.GetByTestId("titleInput").Locator("label").ClickAsync();
 
-        await Page.GetByLabel("Insert title for box, please").FillAsync("Test1");
+        await Page.GetByLabel("The name of the new box: ").FillAsync("Test1");
 
-        await Page.GetByLabel("Insert title for box, please").PressAsync("Tab");
+        await Page.GetByLabel("The name of the new box: ").PressAsync("Tab");
 
-        await Page.GetByLabel("insert height for box please").FillAsync("40");
+        await Page.GetByLabel("Height: ").FillAsync("40");
 
-        await Page.GetByLabel("insert height for box please").PressAsync("Tab");
+        await Page.GetByLabel("Width: ").FillAsync("40");
 
-        await Page.GetByLabel("insert width for box please").FillAsync("40");
+        await Page.GetByLabel("Lenght: ").FillAsync("40");
 
-        await Page.GetByLabel("insert width for box please").PressAsync("Tab");
+        await Page.GetByLabel("Cost price: ").FillAsync("200");
 
-        await Page.GetByLabel("insert lenght for box please").FillAsync("40");
+        await Page.GetByLabel("Type: ").FillAsync("Wood");
 
-        await Page.GetByLabel("insert lenght for box please").PressAsync("Tab");
-
-        await Page.GetByLabel("insert price for box please").FillAsync("200");
-
-        await Page.GetByLabel("insert price for box please").PressAsync("Tab");
-
-        await Page.GetByLabel("insert a type for the box please").FillAsync("Wood");
-
-        await Page.GetByLabel("insert boximgurl for box please").FillAsync("https://cdn4.jysk.com/getimage/wd2.medium/82289");
+        await Page.GetByLabel("Box image url: ").FillAsync("https://cdn4.jysk.com/getimage/wd2.medium/82289");
 
         await Page.GetByRole(AriaRole.Button, new() { Name = "send" }).ClickAsync();
         

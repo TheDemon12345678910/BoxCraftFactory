@@ -47,7 +47,7 @@ import {ModalController, ToastController} from "@ionic/angular";
       </ion-input>
     </ion-item>
     <ion-item>
-      <ion-input class="input" [formControl]="createNewboxForm.controls.boxImgUrl"  data-testid="boxImgUrlInput"   label="Box imgage url: ">
+      <ion-input class="input" [formControl]="createNewboxForm.controls.boxImgUrl"  data-testid="boxImgUrlInput"   label="Box image url: ">
 
       </ion-input>
     </ion-item>
