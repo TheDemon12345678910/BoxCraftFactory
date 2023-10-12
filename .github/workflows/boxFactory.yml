@@ -38,7 +38,7 @@ jobs:
 
       - name: Install e2e test dependencies
         working-directory: ./TestProject1/
-        run: npm i && npx playwright install
+        run: npm i && npx playwright install --with-deps
 
       - name: Build
         run: dotnet build
@@ -56,6 +56,4 @@ jobs:
       
       - name: Run tests
         working-directory: ./TestProject1
-        run: |
-          npm run playwright-install
-          dotnet test
+        run: dotnet test
