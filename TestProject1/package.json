@@ -9,5 +9,8 @@
   "license": "ISC",
   "devDependencies": {
     "@playwright/test": "^1.36.1"
+  },
+  "scripts": {
+    "playwright-install": "playwright install"
   }
 }
