@@ -14,7 +14,7 @@ public class Tests : PageTest
     public async Task CanFieldBeFound()
 
     {
-        await Page.GotoAsync("http://localhost:4200/boxes");
+        await Page.GotoAsync("http://localhost:5000/boxes");
 
         var inputField = Page.GetByLabel("Search");
 
@@ -27,7 +27,7 @@ public class Tests : PageTest
     public async Task SearchFunctionTest()
     {
         
-        await Page.GotoAsync("http://localhost:4200/boxes");
+        await Page.GotoAsync("http://localhost:5000/boxes");
 
         await Page.GetByLabel("Search").ClickAsync();
 
@@ -51,7 +51,7 @@ public class Tests : PageTest
     [Test]
     public async Task CreateBoxTest()
     {
-        await Page.GotoAsync("http://localhost:4200/boxes");
+        await Page.GotoAsync("http://localhost:5000/boxes");
         
         await Page.Locator(".ios > .ios > .icon-inner > .ionicon > path").First.ClickAsync();
 

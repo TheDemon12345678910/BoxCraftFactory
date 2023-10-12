@@ -25,8 +25,8 @@ jobs:
         with:
           node-version: '18'
 
-      - name: Install newman and Angular CLI
-        run: npm i -g newman @angular/cli
+      - name: Install  Angular CLI
+        run: npm i -g @angular/cli
 
       - name: Install API dependencies
         working-directory: ./api
@@ -34,19 +34,11 @@ jobs:
 
       - name: Install frontend dependencies
         working-directory: ./frontend
-        run: npm i
-
-      - name: Install e2e test dependencies
-        working-directory: ./TestProject1
-        run: npm i && npx playwright install
+        run: npm i && ng build
 
       - name: Build
         run: dotnet build
         working-directory: ./api
-
-      - name: Build frontend
-        run: ng build --base-href=/app
-        working-directory: ./frontend
 
       - name: Start HTTP server
         working-directory: ./api
@@ -55,7 +47,6 @@ jobs:
           pgconn: ${{secrets.PGCONN}}
       
       - name: Run setup for test
-
         run: cd TestProject1 && dotnet build && pwsh bin/Debug/net8.0/playwright.ps1 install
         
       - name: Run test
