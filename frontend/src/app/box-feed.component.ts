@@ -15,62 +15,85 @@ import {AlertController} from '@ionic/angular';
   template: `
       <ion-content style="position: absolute; top: 0;">
           <img src="assets/icon/Box-craft.png" alt="BoxCraft"/>
-          <!--The big grid with 2 grids inside-->
 
-          <ion-item>
-              <ion-input type="text" [(ngModel)]="searchTerm" placeholder="Search for boxes"
-                         aria-label="Search"></ion-input>
-              <ion-label>Select Material</ion-label>
-              <ion-select [(ngModel)]="selectedMaterial" label="Select Material">
-                  <ion-select-option value="Cardboard">Cardboard</ion-select-option>
-                  <ion-select-option value="Wood">Wood</ion-select-option>
-                  <ion-select-option value="Metal">Metal</ion-select-option>
-                  <ion-select-option value="Plastic">Plastic</ion-select-option>
-              </ion-select>
-              <ion-button (click)="clearAndFetchBoxes()">Clear</ion-button>
-              <ion-button (click)="filterBoxes()">Search</ion-button>
-          </ion-item>
+          <!--The big grid with 2 grids inside-->
+        <ion-grid>
+          <ion-row>
+            <ion-col>
           <ion-grid>
               <ion-row>
+                  <ion-item>
+                      <ion-input class="search-field" type="text" [(ngModel)]="searchTerm"
+                                 placeholder="Search for boxes"
+                                 aria-label="Search for boxes"></ion-input>
+                      <ion-label>Select Material</ion-label>
+                      <ion-select [(ngModel)]="selectedMaterial" label="Select Material">
+                          <ion-select-option value="Cardboard">Cardboard</ion-select-option>
+                          <ion-select-option value="Wood">Wood</ion-select-option>
+                          <ion-select-option value="Metal">Metal</ion-select-option>
+                          <ion-select-option value="Plastic">Plastic</ion-select-option>
+                      </ion-select>
+                      <ion-button class="button-search" (click)="clearAndFetchBoxes()">Clear</ion-button>
+                      <ion-button class="button-search" (click)="filterBoxes()">Search</ion-button>
+                  </ion-item>
+              </ion-row>
+              <ion-row>
                   <ion-col>
-                      <div style="width: 700px;height: 600px" class="scrollBox">
+                      <div class="cards-list">
                           <ion-grid>
                               <ion-col>
                                   <ion-row>
-                                      <ion-card (click)="clickedCard(box)" class=ion-card
+                                      <ion-card class="box-card" (click)="clickedCard(box)"
                                                 [attr.data-testid]="'card_'+box.boxTitle"
                                                 *ngFor="let box of state.boxes">
-                                          <img style="max-height: 200px;" [src]="box.boxImgUrl">
-                                          <ion-card-title class="card">{{box.boxTitle}}</ion-card-title>
+                                          <div style="display: flex; align-items: center;justify-content: center;">
+                                              <img style="max-height: 200px;" [src]="box.boxImgUrl">
+                                          </div>
+
+                                          <ion-card-title class="box-info-card-name">{{box.boxTitle}}</ion-card-title>
                                       </ion-card>
                                   </ion-row>
                               </ion-col>
                           </ion-grid>
                       </div>
                   </ion-col>
-                  <ion-col>
-                      <ion-grid>
-                          <ion-row>
-                              <ion-col>
-                                  <ion-card>
-                                      <img id="infoImg" style="max-height: 200px;"
-                                           src="https://ionicframework.com/docs/img/demos/card-media.png"/>
-                                      <ion-card-header>
-                                          <ion-card-title id="infocard">Card Title</ion-card-title>
-                                          <ion-card-subtitle>Card Subtitle</ion-card-subtitle>
-                                      </ion-card-header>
-                                      <ion-card-content>
-                                          Here's a small text description for the card content.
-                                          Nothing more, nothing
-                                          less.
-                                      </ion-card-content>
-                                  </ion-card>
-                              </ion-col>
-                          </ion-row>
-                      </ion-grid>
-                  </ion-col>
               </ion-row>
           </ion-grid>
+            </ion-col>
+            <ion-col>
+              <ion-col offset="1">
+                <ion-card class="box-info-card">
+                  <div style="display: flex; align-items: center;justify-content: center;">
+                    <img id="infoImg" style="max-height: 250px;"
+                         src="https://ionicframework.com/docs/img/demos/card-media.png"/>
+                  </div>
+                  <ion-card-header>
+                    <ion-card-title class="box-info-card-name" id="infocard">Card Title
+                    </ion-card-title>
+                  </ion-card-header>
+                  <ion-card-content id="content" class="box-info-card-data">
+                    <p id="infoContent"></p>
+                    <strong>Mesurements</strong>
+                    <p id="height"></p>
+                    <p id="lenth"></p>
+                    <p id="width"></p>
+                    <br>
+                    <p id="type"></p>
+                    <br>
+                    <p id="price"></p>
+                    <button class="button-createAndEdit" id="deleteButton" (click)="deleteBox()">
+                      <ion-icon name="trash-outline"></ion-icon>
+                    </button>
+                    <button class="button-createAndEdit" id="updateButton"
+                            (click)="updateModal()">
+                      <ion-icon name="build-outline"></ion-icon>
+                    </button>
+                  </ion-card-content>
+                </ion-card>
+              </ion-col>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
           <ion-fab slot="fixed" vertical="bottom" horizontal="start">
               <ion-fab-button>
                   <ion-icon name="chevron-forward-circle"></ion-icon>
@@ -78,9 +101,6 @@ import {AlertController} from '@ionic/angular';
               <ion-fab-list side="end">
                   <ion-fab-button data-testid="createBox" (click)="openModal()">
                       <ion-icon name="hammer-outline"></ion-icon>
-                  </ion-fab-button>
-                  <ion-fab-button data-testid="update" (click)="updateModal()">
-                      <ion-icon name="build-outline"></ion-icon>
                   </ion-fab-button>
               </ion-fab-list>
           </ion-fab>
@@ -91,6 +111,7 @@ import {AlertController} from '@ionic/angular';
 export class BoxFeed implements OnInit {
   searchTerm: string | undefined;
   selectedMaterial: string | undefined;
+  selectedBoxID: number | undefined;
 
   constructor(public http: HttpClient, public modalController: ModalController,
               public state: State, public toastController: ToastController, private alertController: AlertController) {
@@ -99,19 +120,34 @@ export class BoxFeed implements OnInit {
   }
 
   ngOnInit(): void {
-        throw new Error("Method not implemented.");
-    }
-
-
-  clickedCard(box: Box){
-    console.log("Hello you clicked the card with id: " + box.boxId + " with the name: " + box.boxTitle);
-    var infoCardTitle = document.getElementById("infocard");
-    var infoImage = document.getElementById("infoImg") as HTMLImageElement;
-    if(infoCardTitle != null && infoImage != null){
-      infoCardTitle.textContent = box.boxTitle + "";
-      infoImage.src = box.boxImgUrl + "";
-    }
+    console.log("Running program")
   }
+
+  setInfoCard(box: Box) {
+    var infoCardTitle = document.getElementById("infocard") as HTMLElement;
+    var infoImage = document.getElementById("infoImg") as HTMLImageElement;
+    var infoHeight = document.getElementById("height") as HTMLElement;
+    var infoLength = document.getElementById("lenth") as HTMLElement;
+    var infoWidth = document.getElementById("width") as HTMLElement;
+    var infoType = document.getElementById("type") as HTMLElement;
+    var infoPrice = document.getElementById("price") as HTMLElement;
+    if (infoCardTitle != null && infoImage != null) {
+      infoImage.src = box.boxImgUrl + "";
+      infoCardTitle.textContent = box.boxTitle + "";
+      infoHeight.textContent = "Height: " + box.boxHeight + " cm";
+      infoLength.textContent = "Lenth: " + box.boxLength + "cm";
+      infoWidth.textContent = "Width: " + box.boxWidth + "cm";
+      infoType.textContent = "Type: " + box.boxType;
+      infoPrice.textContent = "Cost price: " + box.boxPrice + " dkr";
+      }
+  }
+
+  clickedCard(box: Box) {
+    console.log("Hello you clicked the card with id: " + box.boxId + " with the name: " + box.boxTitle);
+    this.selectedBoxID = box.boxId;
+    this.setInfoCard(box)
+  }
+
   async fetchBoxes() {
 
     const result = await firstValueFrom(this.http.get<ResponseDto<Box[]>>(environment.baseUrl + '/api/boxes'))
@@ -128,18 +164,20 @@ export class BoxFeed implements OnInit {
     this.fetchBoxes();
   }
 
-  async deleteBox(boxId: number | undefined) {
+  async deleteBox() {
 
     try {
-
-      await firstValueFrom(this.http.delete(environment.baseUrl + '/api/boxes/' + boxId))
-      this.state.boxes = this.state.boxes.filter(b => b.boxId != boxId)
+      await firstValueFrom(this.http.delete(environment.baseUrl + '/api/boxes/' + this.selectedBoxID))
+      this.state.boxes = this.state.boxes.filter(b => b.boxId != this.selectedBoxID)
       const toast = await this.toastController.create({
         message: 'the box was successfully deleted yeeees',
         duration: 1233,
         color: "success"
       })
       toast.present();
+      //Get another box in the display
+      const result = await firstValueFrom(this.http.get<Box[]>("http://localhost:5000/api/FindBox?typeOfBox=Cardboard"))
+      this.setInfoCard(result[0]);
     } catch (e) {
       if (e instanceof HttpErrorResponse) {
         const toast = await this.toastController.create({
@@ -175,12 +213,11 @@ export class BoxFeed implements OnInit {
     this.state.boxes = result;
 
     console.log(result)
-    if(!this.state.boxes || this.state.boxes.length === 0) {
+    if (!this.state.boxes || this.state.boxes.length === 0) {
       // Show an alert if the result is empty
       this.showEmptyResultAlert();
     }
   }
-
 
 
   async showEmptyResultAlert() {
@@ -200,6 +237,7 @@ export class BoxFeed implements OnInit {
 
     await alert.present();
   }
+
   setResult(ev: { detail: { role: any; }; }) {
     console.log(`Dismissed with role: ${ev.detail.role}`);
   }

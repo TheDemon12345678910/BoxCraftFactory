@@ -88,8 +88,8 @@ RETURNING *;
     {
         var sql = @"SELECT *
         FROM boxfactory.box
-        WHERE (@searchTerm IS NULL OR boxTitle LIKE '%' || @searchTerm || '%')
-        AND (@typeOfBox IS NULL OR boxType LIKE '%' || @typeOfBox || '%');
+        WHERE (@searchTerm IS NULL OR boxTitle ILIKE '%' || @searchTerm || '%')
+        AND (@typeOfBox IS NULL OR boxType ILIKE '%' || @typeOfBox || '%');
         ";
         using (var conn = _dataSource.OpenConnection())
         {
