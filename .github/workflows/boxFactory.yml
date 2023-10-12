@@ -38,7 +38,7 @@ jobs:
 
       - name: Install e2e test dependencies
         working-directory: ./TestProject1
-        run: dotnet restore
+        run: npm i && npx playwright install
 
       - name: Build
         run: dotnet build
@@ -55,10 +55,9 @@ jobs:
           pgconn: ${{secrets.PGCONN}}
       
       - name: Run setup for test
-        working-directory: ./TestProject1
-        run: pwsh ./bin/Debug/net8.0/playwright.ps1 install
+
+        run: cd TestProject1 && dotnet build && pwsh bin/Debug/net8.0/playwright.ps1 install
         
       - name: Run test
         working-directory: ./TestProject1
-        shell: pwsh
         run: dotnet test
