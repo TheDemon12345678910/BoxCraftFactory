@@ -57,7 +57,7 @@ jobs:
       - name: Run ps1Install
         working-directory: ./TestProject1
         shell: pwsh
-        run: bin/Debug/net8.0/playwright.ps1 install
+        run: pwsh bin/Debug/net8.0/playwright.ps1 install
 
       - name: Run tests
         working-directory: ./TestProject1
