@@ -37,7 +37,7 @@ jobs:
         run: npm i
 
       - name: Install e2e test dependencies
-        working-directory: ./tests/e2e
+        working-directory: ./TestProject1/
         run: npm i && npx playwright install
 
       - name: Build
@@ -48,10 +48,6 @@ jobs:
         run: ng build --base-href=/app
         working-directory: ./frontend
 
-      - name: Make scripts executable
-        working-directory: ./shell_scripts
-        run: chmod +x ./wait-for-it.sh run-all-api-tests.sh
-
       - name: Start HTTP server
         working-directory: ./api
         run: dotnet run &
@@ -59,8 +55,5 @@ jobs:
           pgconn: ${{secrets.PGCONN}}
 
       - name: Run tests
-        working-directory: ./shell_scripts
-        run: |
-          ./wait-for-it.sh -t 60 localhost:5000 &&
-          sh ./run-all-api-tests.sh &&
-          cd ../tests/e2e && npx playwright test
+        working-directory: ./TestProject1
+        run: dotnet test
