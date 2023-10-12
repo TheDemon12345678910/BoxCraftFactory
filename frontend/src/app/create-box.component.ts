@@ -63,10 +63,10 @@ export class CreateBoxComponent {
 
   createNewboxForm = this.fb.group({
     boxTitle: ['', Validators.minLength(4)],
-    boxHeight: ['', Validators.required],
-    boxWidth: ['', Validators.required],
-    boxLenght: ['', Validators.required],
-    boxPrice: ['', Validators.required],
+    boxHeight: ['', Validators.min(0.1)],
+    boxWidth: ['', Validators.min(0.1)],
+    boxLenght: ['', Validators.min(0.1)],
+    boxPrice: ['', Validators.min(1)],
     boxType: ['', Validators.required],
     boxImgUrl: ['', Validators.required]
   })

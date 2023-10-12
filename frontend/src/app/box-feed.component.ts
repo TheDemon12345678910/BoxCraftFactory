@@ -7,8 +7,8 @@ import {State} from "../state";
 import {ModalController, ToastController} from "@ionic/angular";
 import {CreateBoxComponent} from "./create-box.component";
 import {UpdateBoxComponent} from "./update-box.component";
-import {BoxService} from "../box.service";
 import {AlertController} from '@ionic/angular';
+import { BoxService } from "./box.service";
 
 @Component({
   selector: 'app-alert',
@@ -113,7 +113,7 @@ export class BoxFeed implements OnInit {
   selectedMaterial: string | undefined;
   selectedBoxID: number | undefined;
 
-  constructor(public http: HttpClient, public modalController: ModalController,
+  constructor(public http: HttpClient, public modalController: ModalController, public boxService: BoxService,
               public state: State, public toastController: ToastController, private alertController: AlertController) {
 
     this.fetchBoxes();
@@ -143,6 +143,7 @@ export class BoxFeed implements OnInit {
   }
 
   clickedCard(box: Box) {
+    this.boxService.box = box;
     console.log("Hello you clicked the card with id: " + box.boxId + " with the name: " + box.boxTitle);
     this.selectedBoxID = box.boxId;
     this.setInfoCard(box)
@@ -206,7 +207,9 @@ export class BoxFeed implements OnInit {
       url += 'typeOfBox=' + this.selectedMaterial;
     }
 
-    const result = await firstValueFrom(this.http.get<Box[]>(url))
+    const result = await firstValueFrom(this.http.get<Box[]>(url));
+    //const result = await firstValueFrom(this.http.get<Box[]>(url))
+
 
     this.state.boxes = result;
 
@@ -241,6 +244,7 @@ export class BoxFeed implements OnInit {
   }
 
   async updateModal() {
+
     const modal = await this.modalController.create({
       component: UpdateBoxComponent
     });

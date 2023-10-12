@@ -1,10 +1,10 @@
 export class Box {
+  boxId?: number;
   boxTitle?: string;
   boxHeight?: number;
   boxWidth?: number;
   boxLength?: number;
   boxPrice?: number;
-  boxId?: number;
   boxImgUrl?: string;
   boxType?: string;
 }

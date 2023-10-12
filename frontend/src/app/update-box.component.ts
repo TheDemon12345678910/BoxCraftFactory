@@ -1,57 +1,55 @@
 
 import {Component, NgModule} from "@angular/core";
-import {BoxService, BoxInformation} from"../box.service"
-import {FormBuilder, Validators} from "@angular/forms";
-import {Box, ResponseDto} from "../models";
+import {FormBuilder, FormControl, Validators} from "@angular/forms";
+import {Box} from "../models";
 import {HttpClient, HttpErrorResponse} from "@angular/common/http";
 import {environment} from "../environments/environment";
 import {State} from "../state";
 import {firstValueFrom} from "rxjs";
 import {ModalController, ToastController} from "@ionic/angular";
+import { BoxService } from "./box.service";
 @Component({
-  
+
   template: `
 
   <ion-list>
     <ion-item>
-      <ion-input [formControl]="updateBoxForm.controls.boxTitle" data-testid="titleInput" placeholder='this.box.title'>
-
-      </ion-input>
-      <div *ngIf="!updateBoxForm.controls.boxTitle.valid">box title must be 4 chars or more</div>
-    </ion-item>
-    <ion-item>
-      <ion-input [formControl]="updateBoxForm.controls.boxHeight" data-testid="boxHeightInput"  label="Insert new height for box" placeholder="this.box.height">
-
+      <ion-input [formControl]="updateBoxForm.controls.boxTitle" data-testid="titleInput" label="Insert new title for box">
+        <div *ngIf="!updateBoxForm.controls.boxTitle.valid">box title must be 4 chars or more</div>
       </ion-input>
     </ion-item>
     <ion-item>
-      <ion-input [formControl]="updateBoxForm.controls.boxWidth" data-testid="boxWidthInput"  label="Insert new width for box" placeholder="this.box.width">
-
+      <ion-input [formControl]="updateBoxForm.controls.boxHeight" data-testid="boxHeightInput"  label="Insert new height for box">
       </ion-input>
     </ion-item>
     <ion-item>
-      <ion-input [formControl]="updateBoxForm.controls.boxLenght" data-testid="boxLenghtInput"  label="Insert new lenght for box" placeholder = "this.box.length">
+      <ion-input [formControl]="updateBoxForm.controls.boxWidth" data-testid="boxWidthInput"  label="Insert new width for box">
 
       </ion-input>
     </ion-item>
     <ion-item>
-      <ion-input [formControl]="updateBoxForm.controls.boxPrice" data-testid="boxPriceInput"  label="Insert new price for box" placeholder="this.box.price">
+      <ion-input [formControl]="updateBoxForm.controls.boxLength" data-testid="boxLenghtInput"  label="Insert new lenght for box">
 
       </ion-input>
     </ion-item>
     <ion-item>
-      <ion-input [formControl]="updateBoxForm.controls.boxType" data-testid="boxTypeInput"  label="Insert a new type for the box" placeholder="this.box.type">
+      <ion-input [formControl]="updateBoxForm.controls.boxPrice" data-testid="boxPriceInput"  label="Insert new price for box">
 
       </ion-input>
     </ion-item>
     <ion-item>
-      <ion-input  [formControl]="updateBoxForm.controls.boxImgUrl"  data-testid="boxImgUrlInput"   label="Insert a new boximgurl for box" placeholder="this.box.imageUrl">
+      <ion-input [formControl]="updateBoxForm.controls.boxType" data-testid="boxTypeInput"  label="Insert a new type for the box">
+
+      </ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-input  [formControl]="updateBoxForm.controls.boxImgUrl"  data-testid="boxImgUrlInput"   label="Insert a new boximgurl for box">
 
       </ion-input>
     </ion-item>
 
     <ion-item>
-      <ion-button data-testid="submit" [disabled]="updateBoxForm.invalid" (click)="submit()">send</ion-button>
+      <ion-button data-testid="submit" [disabled]="updateBoxForm.invalid" (click)="submitUpdate()">send</ion-button>
     </ion-item>
   </ion-list>
 
@@ -59,47 +57,55 @@ import {ModalController, ToastController} from "@ionic/angular";
 })
 export class UpdateBoxComponent {
 
+  constructor(public fb: FormBuilder, public modalController: ModalController, public http: HttpClient, public state: State, public toastController: ToastController,public boxService: BoxService) {
+    this.box = this.boxService.box;}
+
+  box: Box;
+  ngOnInit(){
+   // this.boxService.currentNum.subscribe(((boxElement: Box | undefined)=>this.boxService.box=boxElement))
+
+  }
+
+  boxTitle = new FormControl(this.boxService.box?.boxTitle, [Validators.minLength(4), Validators.required])
+
+  boxLength = new FormControl(this.boxService.box?.boxLength, [Validators.min(0.1), Validators.required])
+
+  boxHeight = new FormControl(this.boxService.box?.boxHeight, [Validators.min(0.1), Validators.required])
+
+  boxWidth = new FormControl(this.boxService.box?.boxWidth, [Validators.min(0.1), Validators.required])
+
+  boxPrice = new FormControl(this.boxService.box?.boxPrice, [Validators.min(0.1), Validators.required])
+
+  boxType = new FormControl(this.boxService.box?.boxType, [Validators.minLength(1), Validators.required])
+
+  boxImgUrl = new FormControl(this.boxService.box?.boxImgUrl, [Validators.minLength(5), Validators.required])
+
   updateBoxForm = this.fb.group({
-    boxTitle: ['', Validators.minLength(4)],
-    boxHeight: ['', Validators.required],
-    boxWidth: ['', Validators.required],
-    boxLenght: ['', Validators.required],
-    boxPrice: ['', Validators.required],
-    boxType: ['', Validators.required],
-    boxImgUrl: ['', Validators.required]
+    boxTitle: this.boxTitle,
+    boxLength: this.boxLength,
+    boxHeight: this.boxHeight,
+    boxWidth: this.boxWidth,
+    boxPrice: this.boxPrice,
+    boxType:this.boxType,
+    boxImgUrl: this.boxImgUrl
   })
 
-  constructor(public boxService: BoxService, public fb: FormBuilder, public modalController: ModalController, public http: HttpClient, public state: State, public toastController: ToastController) {
-  }
-  box: BoxInformation | undefined;
-  ngOnInit() {
-    this.loadBoxInformation();
-  }
-  loadBoxInformation() {
-    this.boxService.getBoxInformation().subscribe(
-      (data) => {
-        this.box = data;
-      },
-      (error) => {
-        console.error('Error fetching box information:', error);
-      }
-    );
-  }
 
-  async submit() {
 
+  async submitUpdate() {
     try {
-      const observable =     this.http.put<ResponseDto<Box>>(environment.baseUrl + '/api/boxes', this.updateBoxForm.getRawValue())
-
+      const observable =     this.http.put<Box>(environment.baseUrl + '/api/boxes/' + this.box.boxId, this.updateBoxForm.getRawValue())
       const response = await firstValueFrom(observable);
-      this.state.boxes.push(response.responseData!);
+      const boxId = this.state.boxes.findIndex(box=> box.boxId == response.boxId)
+      this.state.boxes[boxId] = response;
 
       const toast = await this.toastController.create({
-        message: 'the box was successfully deleted yeeees',
+        message: 'the box was successfully updated',
         duration: 1233,
         color: "success"
       })
       toast.present();
+
       this.modalController.dismiss();
     } catch (e) {
       if(e instanceof HttpErrorResponse) {
