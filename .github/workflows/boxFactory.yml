@@ -29,6 +29,7 @@ jobs:
       - name: Enter api folder
         run: |
           cd api/
+          export pgconn=postgres://lzauaeav:VixwuGRi3aAeG1QnKq77_yE8G9zmvT3R@cornelius.db.elephantsql.com/lzauaeav
           dotnet run
   build2:
     runs-on: ubuntu-latest
