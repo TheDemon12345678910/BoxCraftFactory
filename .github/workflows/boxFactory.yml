@@ -56,4 +56,6 @@ jobs:
       
       - name: Run tests
         working-directory: ./TestProject1
-        run: dotnet test
+        run: |
+          pwsh -Command "& './bin/Debug/net8/playwright.ps1' install"
+          dotnet test
