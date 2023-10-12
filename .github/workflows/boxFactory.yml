@@ -54,6 +54,12 @@ jobs:
         env:
           pgconn: ${{secrets.PGCONN}}
       
-      - name: Run tests
+      - name: Run setup for test
         working-directory: ./TestProject1
+        shell: pwsh
+        run: bin/Debug/net8.0/playwright.ps1 install
+        
+      - name: Run test
+        working-directory: ./TestProject1
+        shell: pwsh
         run: dotnet test
