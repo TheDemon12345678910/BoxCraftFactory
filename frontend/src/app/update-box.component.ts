@@ -14,42 +14,42 @@ import { BoxService } from "./box.service";
 
   <ion-list>
     <ion-item>
-      <ion-input [formControl]="updateBoxForm.controls.boxTitle" data-testid="titleInput" label="Insert new title for box">
+      <ion-input class="input" [formControl]="updateBoxForm.controls.boxTitle" data-testid="titleInput" label="Insert new title for box">
         <div *ngIf="!updateBoxForm.controls.boxTitle.valid">box title must be 4 chars or more</div>
       </ion-input>
     </ion-item>
     <ion-item>
-      <ion-input [formControl]="updateBoxForm.controls.boxHeight" data-testid="boxHeightInput"  label="Insert new height for box">
+      <ion-input class="input" [formControl]="updateBoxForm.controls.boxHeight" data-testid="boxHeightInput"  label="Insert new height for box">
       </ion-input>
     </ion-item>
     <ion-item>
-      <ion-input [formControl]="updateBoxForm.controls.boxWidth" data-testid="boxWidthInput"  label="Insert new width for box">
+      <ion-input class="input" [formControl]="updateBoxForm.controls.boxWidth" data-testid="boxWidthInput"  label="Insert new width for box">
 
       </ion-input>
     </ion-item>
     <ion-item>
-      <ion-input [formControl]="updateBoxForm.controls.boxLength" data-testid="boxLenghtInput"  label="Insert new lenght for box">
+      <ion-input class="input" [formControl]="updateBoxForm.controls.boxLength" data-testid="boxLenghtInput"  label="Insert new lenght for box">
 
       </ion-input>
     </ion-item>
     <ion-item>
-      <ion-input [formControl]="updateBoxForm.controls.boxPrice" data-testid="boxPriceInput"  label="Insert new price for box">
+      <ion-input class="input" [formControl]="updateBoxForm.controls.boxPrice" data-testid="boxPriceInput"  label="Insert new price for box">
 
       </ion-input>
     </ion-item>
     <ion-item>
-      <ion-input [formControl]="updateBoxForm.controls.boxType" data-testid="boxTypeInput"  label="Insert a new type for the box">
+      <ion-input class="input" [formControl]="updateBoxForm.controls.boxType" data-testid="boxTypeInput"  label="Insert a new type for the box">
 
       </ion-input>
     </ion-item>
     <ion-item>
-      <ion-input  [formControl]="updateBoxForm.controls.boxImgUrl"  data-testid="boxImgUrlInput"   label="Insert a new boximgurl for box">
+      <ion-input class="input" [formControl]="updateBoxForm.controls.boxImgUrl"  data-testid="boxImgUrlInput"   label="Insert a new boximgurl for box">
 
       </ion-input>
     </ion-item>
 
     <ion-item>
-      <ion-button data-testid="submit" [disabled]="updateBoxForm.invalid" (click)="submitUpdate()">send</ion-button>
+      <ion-button data-testid="submit" [disabled]="updateBoxForm.invalid" (click)="submitUpdate()">Submit</ion-button>
     </ion-item>
   </ion-list>
 
@@ -62,8 +62,6 @@ export class UpdateBoxComponent {
 
   box: Box;
   ngOnInit(){
-   // this.boxService.currentNum.subscribe(((boxElement: Box | undefined)=>this.boxService.box=boxElement))
-
   }
 
   boxTitle = new FormControl(this.boxService.box?.boxTitle, [Validators.minLength(4), Validators.required])
