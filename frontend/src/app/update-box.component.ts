@@ -1,6 +1,5 @@
 
 import {Component, NgModule} from "@angular/core";
-import {BoxService} from"./box.service"
 import {FormBuilder, FormControl, Validators} from "@angular/forms";
 import {Box} from "../models";
 import {HttpClient, HttpErrorResponse} from "@angular/common/http";
@@ -8,6 +7,7 @@ import {environment} from "../environments/environment";
 import {State} from "../state";
 import {firstValueFrom} from "rxjs";
 import {ModalController, ToastController} from "@ionic/angular";
+import { BoxService } from "./box.service";
 @Component({
 
   template: `
