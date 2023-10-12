@@ -6,14 +6,15 @@ import {Box} from '../../infrastructure/DataModels';
   providedIn: 'root',
 })
 export class BoxService {
-  private numberSource = new BehaviorSubject<Box| undefined> (undefined);
+  private numSource = new BehaviorSubject<Box| undefined> (undefined);
 
-  currentNumber = this.numberSource.asObservable();
+  currentNum = this.numSource.asObservable();
 
   box:Box |undefined
 
+
   updateBox(boxElement:Box){
     this.box=boxElement
-    this.numberSource.next(boxElement)
+    this.numSource.next(boxElement)
   }
 }

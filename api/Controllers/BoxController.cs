@@ -63,7 +63,7 @@ public class BoxController : ControllerBase
             boxWidth = dto.boxWidth,
             boxHeight = dto.boxHeight,
             boxLength = dto.boxLength,
-            boxId = dto.boxId,
+            boxId = boxId,
             boxPrice = dto.boxPrice,
             boxImgUrl = dto.boxImgUrl,
             boxTitle = dto.boxTitle

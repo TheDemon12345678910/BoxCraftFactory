@@ -56,13 +56,14 @@ import {ModalController, ToastController} from "@ionic/angular";
   `
 })
 export class UpdateBoxComponent {
-  boxElement: Box | undefined;
-  constructor(public fb: FormBuilder, public modalController: ModalController, public http: HttpClient, public state: State, public toastController: ToastController,public boxService: BoxService) {
-  }
 
+  constructor(public fb: FormBuilder, public modalController: ModalController, public http: HttpClient, public state: State, public toastController: ToastController,public boxService: BoxService) {
+    this.box = this.boxService.box;}
+
+  box: Box;
   ngOnInit(){
-    this.boxService.currentNumber.subscribe(boxElement=>this.boxElement=boxElement)
-    console.log(this.boxService.currentNumber.subscribe(boxElement=>this.boxElement=boxElement))
+   // this.boxService.currentNum.subscribe(((boxElement: Box | undefined)=>this.boxService.box=boxElement))
+
   }
 
   boxTitle = new FormControl(this.boxService.box?.boxTitle, [Validators.minLength(4), Validators.required])
@@ -92,11 +93,8 @@ export class UpdateBoxComponent {
 
 
   async submitUpdate() {
-    let boxNumber1 = this.boxElement?.boxId
-    console.log(boxNumber1)
-
     try {
-      const observable =     this.http.put<Box>(environment.baseUrl + '/api/boxes/' + boxNumber1, this.updateBoxForm.getRawValue())
+      const observable =     this.http.put<Box>(environment.baseUrl + '/api/boxes/' + this.box.boxId, this.updateBoxForm.getRawValue())
       const response = await firstValueFrom(observable);
       const boxId = this.state.boxes.findIndex(box=> box.boxId == response.boxId)
       this.state.boxes[boxId] = response;
